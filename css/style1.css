@@ -1,0 +1,204 @@
+html,
+body {
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+.sidebar {
+    height: 100vh;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.3s ease;
+    position: fixed;
+    /* Ensure sidebar is fixed to the left */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.sidebar.collapsed {
+    width: 90px;
+    /* Width for collapsed state */
+}
+
+.sidebar-header,
+.sidebar-body,
+.sidebar-footer {
+    padding: 10px;
+}
+
+.sidebar-header img,
+.sidebar-footer img {
+    display: block;
+}
+
+.sidebar.collapsed .sidebar-header .text,
+.sidebar.collapsed .sidebar-footer .text {
+    display: none;
+}
+
+.sidebar.collapsed .sidebar-header img,
+.sidebar.collapsed .sidebar-footer img {
+    padding: 10px;
+}
+
+.sidebar.collapsed .sidebar-body {
+    padding-left: 15px;
+    padding-right: 0;
+}
+
+.sidebar-body {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-footer {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #dee2e6;
+}
+
+.nav-link {
+    color: #495057;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    transition: padding 0.3s ease;
+}
+
+.nav-link i {
+    margin-right: 10px;
+    transition: margin 0.3s ease;
+}
+
+.sidebar.collapsed .nav-link {
+    justify-content: center;
+    padding: 10px 5px;
+}
+
+.sidebar.collapsed .nav-link i {
+    margin-right: 0;
+    transition: opacity 0.3s ease;
+}
+
+.sidebar.collapsed .nav-link .text {
+    opacity: 0;
+    display: none;
+}
+
+.main-content {
+    margin-left: 250px;
+    /* Adjust this value to match the sidebar width */
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    height: 100vh;
+
+}
+
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.main-content::-webkit-scrollbar {
+    display: none;
+}
+
+/* Hide scrollbar for Firefox */
+.main-content {
+    scrollbar-width: none;
+}
+
+/* Hide scrollbar for Internet Explorer, Edge */
+.main-content {
+    -ms-overflow-style: none;
+}
+
+.sidebar.collapsed+.main-content {
+    margin-left: 90px;
+    /* Adjust this value to match the collapsed width */
+}
+
+.toggle-button {
+    position: absolute;
+    top: 10px;
+    right: -20px;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+/* Registration Form Styles */
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    width: 100%;
+    /* Ensure it adjusts within its parent */
+    box-sizing: border-box;
+}
+
+.container h2 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #555;
+}
+
+.form-group input,
+.form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group select {
+    appearance: none;
+    background-color: #fff;
+}
+
+.form-group input[type="submit"] {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-group input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+#password_message {
+    color: red;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+#password_message {
+    color: red;
+    margin-top: 5px;
+}
