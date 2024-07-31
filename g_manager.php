@@ -1,5 +1,5 @@
 <?php 
-// some imports in here
+// // some imports in here
 require_once ('./back/php/check_login_status.php');
 include_once ('./back/php/g.manager/admin_create_account.php');
 ?>
@@ -96,7 +96,7 @@ include_once ('./back/php/g.manager/admin_create_account.php');
                         <div class="reg">
                             <div class="container">
                                 <h2>Register</h2>
-                                <form action="/register" method="POST">
+                                <form action="./g_manager.php" method="POST">
                                     <div class="form-group">
                                         <label for="role">Role:</label>
                                         <select id="role" name="role" required>
@@ -133,8 +133,8 @@ include_once ('./back/php/g.manager/admin_create_account.php');
                                     </div>
                                     <div class="form-group">
                                         <label for="confirm_password">Confirm Password:</label>
-                                        <input type="password" id="confirm_password" pattern=".{8,}"
-                                            title="password must be greater than 8 characters" required>
+                                        <input type="password" name="confirm_password" id="confirm_password"
+                                            pattern=".{8,}" title="password must be greater than 8 characters" required>
                                     </div>
                                     <span id="password_message" class="alert alert-block"></span>
                                     <div class="form-group">

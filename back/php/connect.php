@@ -14,4 +14,3 @@ function connect()
 
     return $con;
 }
-connect();
