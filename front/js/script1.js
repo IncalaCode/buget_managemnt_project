@@ -1,27 +1,45 @@
-
 const navLinks = document.querySelectorAll('.nav-link');
 const contentDivs = document.querySelectorAll('.content');
 const sidebar = document.querySelector('.sidebar');
 
+// Function to navigate to the target slide
+function navigateToSlide(targetId) {
+    // Check if the target element exists
+    const targetElement = document.getElementById(targetId);
+    if (!targetElement) {
+        console.error(`Element with ID '${targetId}' not found.`);
+        return;
+    }
 
+    // Remove 'active' class from all links and hide all content divs
+    navLinks.forEach(link => link.classList.remove('active'));
+    contentDivs.forEach(div => {
+        div.style.display = 'none';
+        div.classList.remove('active'); // Remove 'active' class from all content divs
+    });
+
+    // Show the corresponding content div and add 'active' class
+    targetElement.style.display = 'block';
+    targetElement.classList.add('active');
+
+    // Add 'active' class to the link corresponding to the targetId
+    navLinks.forEach(link => {
+        if (link.getAttribute('data-bs-target').substring(1) === targetId) {
+            link.classList.add('active');
+        }
+    });
+}
+
+// Add click event listeners to the navigation links
 navLinks.forEach(link => {
     link.addEventListener('click', function (e) {
         e.preventDefault();
-
-        // Remove active class from all links
-        navLinks.forEach(l => l.classList.remove('active'));
-
-        // Add active class to clicked link
-        this.classList.add('active');
-
-        // Hide all content divs
-        contentDivs.forEach(div => div.style.display = 'none');
-
-        // Show the corresponding content div
         const targetId = this.getAttribute('data-bs-target').substring(1);
-        document.getElementById(targetId).style.display = 'block';
+        navigateToSlide(targetId);
     });
 });
+
+
 
 toggleButton.addEventListener('click', function () {
     sidebar.classList.toggle('collapsed');

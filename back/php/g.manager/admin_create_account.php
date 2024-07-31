@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $confirm_password = filter_input_data($_POST['confirm_password']);
 
     if ($password !== $confirm_password) {
-        $message = array("status" => false, "message" => "Passwords do not match.");
+        $message = array("status" => "error", "message" => "Passwords do not match.",'navigateToSlide' => "Manage_account");
         exit;
     }
 
@@ -28,23 +28,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $connect = connect();
         
         // Prepare the SQL statement
-        $stmt = $connect->prepare("INSERT INTO users (role, fname, lname, phonenum, password) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $connect->prepare("INSERT INTO employ (role, fname, lname, phonenum, password) VALUES (?, ?, ?, ?, ?)");
 
         // Bind parameters
         $stmt->bind_param('sssss', $role, $first_name, $last_name, $phone_number, $hashed_password);
 
         // Execute the statement
         if ($stmt->execute()) {
-            $message = array("status" => true, "message" => "Registration successful.");
+            $message = array("status" => "success", "message" => "Registration successful.",'navigateToSlide' => "Manage_account");
         } else {
-            $message = array("status" => false, "message" => "Registration failed.");
+            $message = array("status" => "error", "message" => "Registration failed.",'navigateToSlide' => "Manage_account");
         }
 
         $stmt->close();
         $connect->close();
 
     } catch (Exception $e) {
-        $message = array("status" => false, "message" => "Error: " . $e->getMessage());
+        $message = array("status" => "error", "message" => "Error: " . $e->getMessage(),'navigateToSlide' => "Manage_account");
     }
 }
 ?>
