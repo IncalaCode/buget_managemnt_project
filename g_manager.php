@@ -2,6 +2,7 @@
 // // some imports in here
 require_once ('./back/php/check_login_status.php');
 include_once ('./back/php/g.manager/admin_create_account.php');
+include_once ('./back/php/g.manager/admin_get_account.php');
 ?>
 
 <!DOCTYPE html>
@@ -13,6 +14,8 @@ include_once ('./back/php/g.manager/admin_create_account.php');
         <title>Dashboard</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+        <!-- message shower with  notyf-->
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
@@ -150,8 +153,23 @@ include_once ('./back/php/g.manager/admin_create_account.php');
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
+        <!-- sicript with notyf -->
+        <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
+        <script type="module">
+        import NotyfService from "./front/js/message.shower.js";
+
+        <?php if (isset($message)): ?>
+        const message = JSON.parse('<?php echo json_encode($message)?>')
+        NotyfService.showMessage(message.status, message.message);
+        navigateToSlide(message.navigateToSlide || "viewStatus")
+        <?php endif;
+        $message = null;
+        ?>
+        </script>
+
     </body>
 
 </html>
