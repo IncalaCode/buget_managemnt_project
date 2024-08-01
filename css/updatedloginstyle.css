@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #333;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    background-size: cover;
+    background-position: center;
+}
+
+.wraper {
+    width: 90%;
+    max-width: 420px;
+    background: transparent;
+    backdrop-filter: blur(20px);
+    border: 2px solid rgba(255, 255, 255, .2);
+    color: white;
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+
+.wraper h1 {
+    font-size: 40px;
+    text-align: center;
+}
+
+.wraper .input-box {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+}
+
+.input-box input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgb(255, 255, 255, .2);
+    border-radius: 40px;
+    font-size: 20px;
+    color: white;
+    padding: 20px 45px 20px 20px;
+}
+
+.input-box input::placeholder {
+    color: white;
+}
+
+.input-box i {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+}
+
+.wraper .forgot a {
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+    margin-left: 200px;
+}
+
+.forgot a:hover {
+    text-decoration: underline;
+}
+
+.wraper .btn {
+    width: 100%;
+    height: 45px;
+    background: white;
+    border: none;
+    outline: none;
+    border-radius: 45px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    font-weight: 600;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.wraper #error_username,
+.wraper #error_password {
+    margin-top: 5px;
+    width: 100%;
+    font-size: 18px;
+    color: #c62828;
+    text-align: center;
+    border-radius: 3px;
+    border: 1px solid #EF9A9A;
+    background: rgba(255, 0, 0, .1);
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .wraper {
+        padding: 20px;
+    }
+
+    .wraper h1 {
+        font-size: 30px;
+    }
+
+    .input-box input {
+        font-size: 18px;
+        padding: 15px 40px 15px 15px;
+    }
+
+    .input-box i {
+        font-size: 18px;
+    }
+
+    /* .forgot a {
+        font-size: 14px;
+        margin-left: 0;
+        text-align: center;
+        display: block;
+        margin-top: 10px;
+    } */
+
+    .wraper .btn {
+        font-size: 14px;
+        height: 40px;
+    }
+
+    .wraper #error_username,
+    .wraper #error_password {
+        font-size: 16px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .wraper {
+        padding: 15px;
+    }
+
+    .wraper h1 {
+        font-size: 25px;
+    }
+
+    .input-box input {
+        font-size: 16px;
+        padding: 10px 35px 10px 10px;
+    }
+
+    .input-box i {
+        font-size: 16px;
+    }
+
+    .forgot a {
+        font-size: 13px;
+    }
+
+    .wraper .btn {
+        font-size: 13px;
+        height: 35px;
+    }
+
+    .wraper #error_username,
+    .wraper #error_password {
+        font-size: 14px;
+        width: 100%;
+    }
+}

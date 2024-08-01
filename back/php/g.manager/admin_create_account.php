@@ -8,6 +8,7 @@ function filter_input_data($data) {
     return filter_var($data, FILTER_SANITIZE_SPECIAL_CHARS);
 }
 
+
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     $role = filter_input_data($_POST['role']);
@@ -16,6 +17,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $phone_number = filter_input_data($_POST['phone_number']);
     $password = filter_input_data($_POST['password']);
     $confirm_password = filter_input_data($_POST['confirm_password']);
+    $username = filter_input_data($_POST['username']);
+
 
     if ($password !== $confirm_password) {
         $message = array("status" => "error", "message" => "Passwords do not match.",'navigateToSlide' => "Manage_account");
@@ -28,10 +31,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $connect = connect();
         
         // Prepare the SQL statement
-        $stmt = $connect->prepare("INSERT INTO employ (role, fname, lname, phonenum, password) VALUES (?, ?, ?, ?, ?)");
+        $stmt = $connect->prepare("INSERT INTO employ (role, fname, lname, phonenum, password,username) VALUES (?, ?, ?, ?, ?,?)");
 
         // Bind parameters
-        $stmt->bind_param('sssss', $role, $first_name, $last_name, $phone_number, $hashed_password);
+        $stmt->bind_param('ssssss', $role, $first_name, $last_name, $phone_number, $hashed_password,$username);
 
         // Execute the statement
         if ($stmt->execute()) {

@@ -75,3 +75,4 @@ confirm_password.addEventListener('input', (e) => {
         }
     })
 });
+
