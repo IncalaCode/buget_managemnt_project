@@ -99,7 +99,7 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                         <div class="reg">
                             <div class="container">
                                 <h2>Register</h2>
-                                <form action="./g_manager.php" method="POST">
+                                <form action="./g_manager.php" method="POST" id="reg">
                                     <div class="form-group">
                                         <label for="role">Role:</label>
                                         <select id="role" name="role" required>
@@ -141,7 +141,7 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                                     </div>
                                     <span id="password_message" class="alert alert-block"></span>
                                     <div class="form-group">
-                                        <input type="submit" value="Register">
+                                        <input type="submit" name="submit" value="Register">
                                     </div>
                                 </form>
                             </div>

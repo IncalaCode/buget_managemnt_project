@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <link rel="stylesheet" href="./css/updatedloginstyle.css">
+        <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+
+    <body>
+        <div class="wraper">
+            <form action="" method="post" name="form" onsubmit="return validated()">
+                <h1>Login</h1>
+                <div class="input-box"><input type="text" placeholder="username" name="username">
+                    <i class='bx bxs-user'></i>
+                </div>
+                <div id="error_username">
+                    Please enter your username
+                </div>
+                <div class="input-box"><input type="password" placeholder="password" name="password">
+                    <i class='bx bxs-lock-alt'></i>
+                </div>
+                <div id="error_password">
+                    Please enter your password
+                </div>
+                <!-- <div class="forgot">
+            <a href="#">Forgot password ?</a>
+            </div> -->
+                <button type="submit" class="btn">Login</button>
+
+            </form>
+        </div>
+        <script src="./front/js/loginjs.js"></script>
+    </body>
+
+</html>
