@@ -19,6 +19,9 @@ include_once ('./back/php/g.manager/admin_get_account.php');
 
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
+        <link rel="stylesheet" href="./css/userTable.css">
+
+
     </head>
 
     <body>
@@ -55,12 +58,18 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="#" data-bs-target="#User_list">
+                                        <i class="bi bi-envelope me-2"></i><span class="text">User list</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#messages">
                                         <i class="bi bi-envelope me-2"></i><span class="text">Messages</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#" data-bs-target="#logout">
+                                    <a class="nav-link" href="#" id="logoutLink"
+                                        onclick="document.getElementById('logoutForm').submit();">
                                         <i class="bi bi-box-arrow-right me-2"></i><span class="text">Logout</span>
                                     </a>
                                 </li>
@@ -75,6 +84,11 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                         <i class="bi bi-chevron-left"></i>
                     </div>
                 </nav>
+
+                <!-- Hidden form to handle logout -->
+                <form id="logoutForm" action="./back/php/check_login_status.php" method="POST" style="display: none;">
+                    <input type="hidden" name="logout" value="logout">
+                </form>
 
                 <!-- Main Content -->
                 <main class="col-md-9 col-lg-10 px-md-4 main-content">
@@ -92,10 +106,72 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                     </div>
                     <div class="content" id="report" style="display: none;">
                         <h2>Report</h2>
-                        <p>This is the Report content.</p>
+                        <div class="container-fluid d-flex">
+                            <div class="row flex-fill">
+                                <div class="col-md-4 left-side p-3" id="buttonContainer">
+                                    <!-- Buttons will be generated here by JavaScript -->
+                                </div>
+                                <div class="col-md-8 right-side p-3">
+                                    <div id="viewer" class="viewer"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="content" id="User_list" style="display: none;">
+                        <h2>user list</h2>
+
+                        <div class="container">
+                            <div class="header">
+                                <h1>User List</h1>
+                            </div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Firstname</th>
+                                        <th>Lastname</th>
+                                        <th>Username</th>
+                                        <th>Phone number</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+include_once('./back/php/connect.php');
+$sql = "SELECT * FROM employ";
+$con = connect();
+$query = $con->query($sql);
+
+if ($query->num_rows > 0) {
+    get_row($query);
+} else {
+    echo "<tr>
+            <td colspan='5' class= 'text-center'>No user found</td>
+          </tr>";
+}
+
+function get_row($query){
+    while ($row = $query->fetch_assoc()) {
+        echo 
+        "<tr>
+            <td>" . $row['id']. "</td>
+            <td>" . $row['fname'] . "</td>
+            <td>" . $row['lname'] . "</td>
+            <td>" . $row['username'] . "</td>
+            <td>" . $row['phonenum'] . "</td>
+        </tr>";
+    }
+}
+?>
+
+
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="content" id="Manage_account" style="display: none;">
                         <h2>Manage Account</h2>
+
                         <div class="reg">
                             <div class="container">
                                 <h2>Register</h2>
@@ -158,6 +234,12 @@ include_once ('./back/php/g.manager/admin_get_account.php');
 
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
+
+        <!-- Mammoth.js Library for DOCX -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+
+
+
         <script type="module">
         import NotyfService from "./front/js/message.shower.js";
 

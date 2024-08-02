@@ -1,6 +1,7 @@
 const navLinks = document.querySelectorAll('.nav-link');
 const contentDivs = document.querySelectorAll('.content');
 const sidebar = document.querySelector('.sidebar');
+const toggleButton = document.getElementById('toggleButton')
 
 // Function to navigate to the target slide
 function navigateToSlide(targetId) {
@@ -24,7 +25,7 @@ function navigateToSlide(targetId) {
 
     // Add 'active' class to the link corresponding to the targetId
     navLinks.forEach(link => {
-        if (link.getAttribute('data-bs-target').substring(1) === targetId) {
+        if (link.getAttribute('data-bs-target') && link.getAttribute('data-bs-target').substring(1) === targetId) {
             link.classList.add('active');
         }
     });
@@ -75,4 +76,50 @@ confirm_password.addEventListener('input', (e) => {
         }
     })
 });
+
+
+// for the displaying the propsal
+const proposals = [
+    {
+        name: "Example Proposal 1",
+        sender: "John Doe",
+        url: ""
+    },
+    {
+        name: "Example Proposal 2",
+        sender: "Jane Smith",
+        url: "/path/to/doc2.docx"
+    }
+    // Add more proposals as needed
+];
+
+function loadDocx(url) {
+    fetch(url)
+        .then(response => response.arrayBuffer())
+        .then(arrayBuffer => mammoth.convertToHtml({ arrayBuffer: arrayBuffer }))
+        .then(result => {
+            document.getElementById('viewer').innerHTML = result.value;
+        })
+        .catch(err => console.error(err));
+}
+
+function createButtons() {
+    const buttonContainer = document.getElementById('buttonContainer');
+
+    proposals.forEach(proposal => {
+        const buttonDiv = document.createElement('div');
+        buttonDiv.className = 'row-button';
+
+        const button = document.createElement('button');
+        button.className = 'btn btn-primary btn-block text-left';
+        button.innerHTML = `Proposal Name: ${proposal.name}<br>Sender: ${proposal.sender}`;
+        button.onclick = () => loadDocx(proposal.url);
+
+        buttonDiv.appendChild(button);
+        buttonContainer.appendChild(buttonDiv);
+    });
+}
+
+// Generate the buttons when the page loads
+window.onload = createButtons;
 
