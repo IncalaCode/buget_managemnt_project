@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
 
     if ($password !== $confirm_password) {
-        $message = array("status" => "error", "message" => "Passwords do not match.",'navigateToSlide' => "Manage_account");
+        $message = array("status" => "error", "message" => "Passwords do not match.",'navigateToSlide' => "User_list");
         exit;
     }
 
@@ -38,16 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         // Execute the statement
         if ($stmt->execute()) {
-            $message = array("status" => "success", "message" => "Registration successful.",'navigateToSlide' => "Manage_account");
+            $message = array("status" => "success", "message" => "Registration successful.",'navigateToSlide' => "User_list");
         } else {
-            $message = array("status" => "error", "message" => "Registration failed.",'navigateToSlide' => "Manage_account");
+            $message = array("status" => "error", "message" => "Registration failed.",'navigateToSlide' => "User_list");
         }
 
         $stmt->close();
         $connect->close();
 
     } catch (Exception $e) {
-        $message = array("status" => "error", "message" => "Error: " . $e->getMessage(),'navigateToSlide' => "Manage_account");
+        $message = array("status" => "error", "message" => "Error: " . $e->getMessage(),'navigateToSlide' => "User_list");
     }
 }
 ?>
