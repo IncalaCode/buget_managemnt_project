@@ -2,6 +2,7 @@
 // // some imports in here
 
 require_once ('./back/php/check_login_status.php');
+require_once('./back/php/file_handler.php')
 ?>
 
 <!DOCTYPE html>
@@ -86,7 +87,7 @@ require_once ('./back/php/check_login_status.php');
                     </div>
                     <div class="content" id="uploadProposal" style="display: none;">
                         <h2>upload Proposal</h2>
-                        <form action="./back/php/file_handler.php" method="post" enctype="multipart/form-data">
+                        <form action="./director.php" method="post" enctype="multipart/form-data">
                             <input type="file" name="file" id="">
                             <input type="hidden" name="dir" value="propsal">
                             <input type="submit" value="Upload File" name="submit">

@@ -1,6 +1,6 @@
 <?php
 
-require ('./convert_pdf_to_docx.php');
+require ('./back/php/convert_pdf_to_docx.php');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } elseif ($fileType === 'docx') {
             $targetFile = $targetDir . '/' . basename($_FILES["file"]["name"]);
-            if (!saveFilePathToDatabase("",$targetDir .basename($convertedFilePath), "")) {
+            if (!saveFilePathToDatabase("",$targetFile, "")) {
                 throw new Exception('Failed to save file path to database.');
             }
             if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {

@@ -1,7 +1,7 @@
 <?php
 require 'vendor/autoload.php';
-require './connect.php';
-require './varable_session.php';
+require './back/php/connect.php';
+require './back/php/varable_session.php';
 
 use Smalot\PdfParser\Parser;
 use PhpOffice\PhpWord\PhpWord;
