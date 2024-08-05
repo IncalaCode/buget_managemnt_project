@@ -1,0 +1,8 @@
+{
+    "require": {
+        "smalot/pdfparser": "^2.10",
+        "phpoffice/phpword": "^1.2",
+        "setasign/fpdf": "^1.8",
+        "setasign/fpdi": "^2.6"
+    }
+}

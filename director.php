@@ -1,8 +1,7 @@
 <?php 
 // // some imports in here
+
 require_once ('./back/php/check_login_status.php');
-include_once ('./back/php/g.manager/admin_create_account.php');
-include_once ('./back/php/g.manager/admin_get_account.php');
 ?>
 
 <!DOCTYPE html>
@@ -87,7 +86,12 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                     </div>
                     <div class="content" id="uploadProposal" style="display: none;">
                         <h2>upload Proposal</h2>
-                        <p>This is the View Proposal content.</p>
+                        <form action="./back/php/file_handler.php" method="post" enctype="multipart/form-data">
+                            <input type="file" name="file" id="">
+                            <input type="hidden" name="dir" value="propsal">
+                            <input type="submit" value="Upload File" name="submit">
+
+                        </form>
                     </div>
                     <div class="content" id="report" style="display: none;">
                         <h2>report</h2>

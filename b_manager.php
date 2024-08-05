@@ -87,7 +87,16 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                     </div>
                     <div class="content" id="viewProposal" style="display: none;">
                         <h2>View Proposal</h2>
-                        <p>This is the View Proposal content.</p>
+                        <div class="container-fluid d-flex">
+                            <div class="row flex-fill">
+                                <div class="col-md-4 left-side p-3" id="buttonContainer">
+                                    <!-- Buttons will be generated here by JavaScript -->
+                                </div>
+                                <div class="col-md-8 right-side p-3">
+                                    <div id="viewer" class="viewer"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="content" id="report" style="display: none;">
                         <h2>report</h2>
