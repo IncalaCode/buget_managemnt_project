@@ -42,12 +42,6 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#" data-bs-target="#viewProposal">
-                                        <i class="bi bi-file-earmark-text me-2"></i><span class="text">View
-                                            Proposal</span>
-                                    </a>
-                                </li>
-                                <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#report">
                                         <i class="bi bi-file-earmark-text me-2"></i><span class="text">Report</span>
                                     </a>
@@ -96,16 +90,12 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                         <h2>View Status</h2>
                         <p>This is the View Status content.</p>
                     </div>
-                    <div class="content" id="viewProposal" style="display: none;">
-                        <h2>View Proposal</h2>
-                        <p>This is the View Proposal content.</p>
-                    </div>
                     <div class="content" id="messages" style="display: none;">
                         <h2>Messages</h2>
                         <p>This is the Messages content.</p>
                     </div>
                     <div class="content" id="report" style="display: none;">
-                        <h2>Report</h2>
+                        <h2> view Report</h2>
                         <div class="container-fluid d-flex">
                             <div class="row flex-fill">
                                 <div class="col-md-4 left-side p-3" id="buttonContainer">
@@ -116,11 +106,9 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                                 </div>
                             </div>
                         </div>
-
                     </div>
                     <div class="content" id="User_list" style="display: none;">
                         <h2>user list</h2>
-
                         <div class="container">
                             <div class="header">
                                 <h1>User List</h1>
@@ -129,10 +117,12 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                                 <thead>
                                     <tr>
                                         <th>ID</th>
+                                        <th>role</th>
                                         <th>Firstname</th>
                                         <th>Lastname</th>
                                         <th>Username</th>
                                         <th>Phone number</th>
+
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -155,11 +145,12 @@ function get_row($query){
         echo 
         "<tr>
             <td>" . $row['id']. "</td>
+             <td>" . $row['role']. "</td>
             <td>" . $row['fname'] . "</td>
             <td>" . $row['lname'] . "</td>
             <td>" . $row['username'] . "</td>
             <td>" . $row['phonenum'] . "</td>
-        </tr>";
+        </tr>"; 
     }
 }
 ?>

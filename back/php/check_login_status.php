@@ -3,7 +3,6 @@ require_once('varable_session.php'); // Ensure this file starts the session and 
 
 function check() {
     if (!isset($_SESSION['user'])) {  
-        // Redirection to login page in case the user is not logged in
         header("location: login.php");
         exit();
     }

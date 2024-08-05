@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $password = filter_input_data($_POST['password']);
 
     if($username == "admin" and  $password=="admin123"){
-        $_SESSION['user'] = array('username'=> "admin","password" => "admin123");
+        $_SESSION['user'] = array('username'=> "admin","password" => "admin123","role" => "g_manager" );
         header("location: ./g_manager.php");
         return;
     }
