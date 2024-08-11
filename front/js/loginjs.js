@@ -5,7 +5,7 @@ var error_password = document.getElementById('error_password');
 username.addEventListener('textInput', username_verify);
 password.addEventListener('textInput', password_verify);
 function validated() {
-    if (username.value.length < 5) {
+    if (username.value.test('[a-zAZ]')) {
         username.style.border = "1px,solid,red";
         error_username.style.display = "block";
         username.focus();
@@ -20,7 +20,7 @@ function validated() {
 }
 
 function username_verify() {
-    if (username.value.length >= 5) {
+    if (username.value.test('[a-zAZ]')) {
         username.style.border = "1px,solid,silver";
         error_username.style.display = "none";
         return true;

@@ -18,6 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $password = filter_input_data($_POST['password']);
     $confirm_password = filter_input_data($_POST['confirm_password']);
     $username = filter_input_data($_POST['username']);
+    $code = filter_input_data($_POST['code']);
 
 
     if ($password !== $confirm_password) {
@@ -31,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $connect = connect();
         
         // Prepare the SQL statement
-        $stmt = $connect->prepare("INSERT INTO employ (role, fname, lname, phonenum, password,username) VALUES (?, ?, ?, ?, ?,?)");
+        $stmt = $connect->prepare("INSERT INTO employ (role, fname, lname, phonenum, password,username,code) VALUES (?, ?, ?, ?, ?,?,?)");
 
         // Bind parameters
-        $stmt->bind_param('ssssss', $role, $first_name, $last_name, $phone_number, $hashed_password,$username);
+        $stmt->bind_param('sssssss', $role, $first_name, $last_name, $phone_number, $hashed_password,$username,$code);
 
         // Execute the statement
         if ($stmt->execute()) {

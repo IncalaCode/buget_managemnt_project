@@ -1,11 +1,12 @@
 <?php
 require_once('varable_session.php'); // Ensure this file starts the session and includes session variables
 
-function check() {
+function check_user() {
     if (!isset($_SESSION['user'])) {  
         header("location: login.php");
         exit();
     }
+    return true;
 }
 
 
@@ -19,8 +20,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     exit();
     }
 }
+function check_url(){
+    if($GLOBALS['url'] != $_SESSION['user']['role']){
+        header("location: ".$_SESSION['user']['role'] . ".php");
+        exit();
+    }
+    return true;
+}
 
 // Call the check function to ensure the user is logged in
-check();
-$message = array('status' => "success", 'message' => "Welcome back " . $_SESSION['user']['username']);
+if(check_user()){   
+    if(check_url()){
+        $message = array('status' => "success", 'message' => "Welcome back " . $_SESSION['user']['username']);
+    }
+    
+}
+
 ?>

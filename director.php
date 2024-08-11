@@ -1,8 +1,11 @@
 <?php 
 // // some imports in here
-
+ $url = "director" ;
 require_once ('./back/php/check_login_status.php');
-require_once('./back/php/file_handler.php')
+// require_once('./back/php/file_handler.php')
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -20,6 +23,7 @@ require_once('./back/php/file_handler.php')
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
 
+        <?php include('./back/php/director/get_propsal.php')?>
 
     </head>
 
@@ -42,8 +46,8 @@ require_once('./back/php/file_handler.php')
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#uploadProposal">
-                                        <i class="bi bi-file-earmark-text me-2"></i><span class="text">upload
-                                            Proposal</span>
+                                        <i class="bi bi-file-earmark-text me-2"></i><span class="text">
+                                            send Proposal</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -98,6 +102,8 @@ require_once('./back/php/file_handler.php')
                         <h2>report</h2>
                         <p>This is the View Proposal content.</p>
                     </div>
+
+
                     <div class="content" id="messages" style="display: none;">
                         <h2>Messages</h2>
                         <p>This is the Messages content.</p>
