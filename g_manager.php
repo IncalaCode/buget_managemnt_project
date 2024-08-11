@@ -1,9 +1,7 @@
-<?php 
-// // some imports in here
-require_once ('./back/php/check_login_status.php');
-include_once ('./back/php/g.manager/admin_create_account.php');
-include_once ('./back/php/g.manager/admin_get_account.php');
-?>
+<?php
+$url = "g_manager";
+require_once ('./back/php/check_login_status.php'); 
+include_once('./back/php/g.manager/admin_create_account.php'); ?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,9 +29,11 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                 <nav class="col-md-3 col-lg-2 d-md-block sidebar p-1">
                     <div class="position-sticky">
                         <div class="sidebar-header d-flex align-items-center">
-                            <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded-circle me-2">
+                            <img src="https://via.placeholder.com/50" alt="Company Logo" cl class="rounded-circle me-2">
                             <span class="fs-3 text">SSTA</span>
+                            <h6 class=" d-flex text"><?php echo "c:".  $_SESSION['user']['code']?></h6>
                         </div>
+
                         <div class="sidebar-body">
                             <ul class="nav flex-column">
                                 <li class="nav-item">
@@ -48,7 +48,8 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#Manage_account">
-                                        <i class="bi bi-person-circle me-2"></i><span class="text">Manage Account</span>
+                                        <i class="bi bi-person-circle me-2"></i><span class="text">Manage
+                                            Account</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -122,38 +123,13 @@ include_once ('./back/php/g.manager/admin_get_account.php');
                                         <th>Lastname</th>
                                         <th>Username</th>
                                         <th>Phone number</th>
+                                        <th>code</th>
 
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-include_once('./back/php/connect.php');
-$sql = "SELECT * FROM employ";
-$con = connect();
-$query = $con->query($sql);
-
-if ($query->num_rows > 0) {
-    get_row($query);
-} else {
-    echo "<tr>
-            <td colspan='5' class= 'text-center'>No user found</td>
-          </tr>";
-}
-
-function get_row($query){
-    while ($row = $query->fetch_assoc()) {
-        echo 
-        "<tr>
-            <td>" . $row['id']. "</td>
-             <td>" . $row['role']. "</td>
-            <td>" . $row['fname'] . "</td>
-            <td>" . $row['lname'] . "</td>
-            <td>" . $row['username'] . "</td>
-            <td>" . $row['phonenum'] . "</td>
-        </tr>"; 
-    }
-}
-?>
+                                    <!-- to get the the vlues of the regesterd users -->
+                                    <?php include('./back/php/g.manager/admin_get_account.php')?>
 
 
                                 </tbody>
@@ -174,12 +150,18 @@ function get_row($query){
                                             <option value="finance">Finance</option>
                                             <option value="b_manager">B. Manager</option>
                                             <option value="director">Director</option>
+                                            <option value="g_manager">g_manager</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
                                         <label for="first_name">First Name:</label>
                                         <input type="text" id="first_name" name="first_name" pattern="[a-zA-Z]+"
                                             title="only insert characters" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="code">Code:</label>
+                                        <input type="text" id="code" name="code" pattern="[0-9]+"
+                                            title="code must be in numbers" required>
                                     </div>
                                     <div class="form-group">
                                         <label for="last_name">Last Name:</label>

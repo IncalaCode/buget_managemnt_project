@@ -1,8 +1,7 @@
 <?php 
 // // some imports in here
+$url = "b_manager";
 require_once ('./back/php/check_login_status.php');
-include_once ('./back/php/g.manager/admin_create_account.php');
-include_once ('./back/php/g.manager/admin_get_account.php');
 ?>
 
 <!DOCTYPE html>

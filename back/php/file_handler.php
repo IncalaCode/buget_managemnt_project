@@ -15,25 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         if ($fileType === 'pdf') {
             $convertedFilePath = convertPdfToDocx($_FILES["file"]["tmp_name"], $targetDir);
-            if ($convertedFilePath) { 
-                if (!saveFilePathToDatabase("",basename($convertedFilePath), "")) {
-                    throw new Exception('Failed to save file path to database.');
-                }
+            if ($convertedFilePath) {
+                saveFilePathToDatabase("", $convertedFilePath, "");
                 $message = array('status' => 'success', 'message' => 'Proposal was uploaded successfully.');
             } else {
-                throw new Exception('Conversion failed.');
+                $message = array('status' => 'success', 'message' => 'Proposal was uploaded successfully.');
             }
         } elseif ($fileType === 'docx') {
             $targetFile = $targetDir . '/' . basename($_FILES["file"]["name"]);
-            if (!saveFilePathToDatabase("",$targetFile, "")) {
-                throw new Exception('Failed to save file path to database.');
+
+            if (move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
+                saveFilePathToDatabase("", $targetFile, "");
+                $message = array('status' => 'success', 'message' => 'Proposal was uploaded successfully.');
+            } else {
+                $message = array('status' => 'error', 'message' => 'Proposal was not uploaded successfully.');
             }
-            if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFile)) {
-                throw new Exception('Failed to move uploaded file.');
-            }
-            $message = array('status' => 'success', 'message' => 'Proposal was uploaded successfully.');
-        } else {
-            throw new Exception('Invalid file type.');
         }
     } catch (Exception $e) {
         $message = array('status' => 'error', 'message' => $e->getMessage());
