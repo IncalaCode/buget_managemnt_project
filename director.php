@@ -2,6 +2,7 @@
 // // some imports in here
  $url = "director" ;
 require_once ('./back/php/check_login_status.php');
+require_once('./back/php/director/add_propsal.php')
 // require_once('./back/php/file_handler.php')
 
 
@@ -22,7 +23,7 @@ require_once ('./back/php/check_login_status.php');
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
-
+        <link rel="stylesheet" href="./css/table.css">
         <?php include('./back/php/director/get_propsal.php')?>
 
     </head>
@@ -90,14 +91,40 @@ require_once ('./back/php/check_login_status.php');
                         <p>This is the View Status content.</p>
                     </div>
                     <div class="content" id="uploadProposal" style="display: none;">
-                        <h2>upload Proposal</h2>
-                        <form action="./director.php" method="post" enctype="multipart/form-data">
-                            <input type="file" name="file" id="">
-                            <input type="hidden" name="dir" value="propsal">
-                            <input type="submit" value="Upload File" name="submit">
 
-                        </form>
+
+                        <div id="tableContainer" style="position: relative;">
+                            <form id="tableForm" action="./director.php" method="post">
+                                <table id="itemTable">
+                                    <thead>
+                                        <tr id="headerRow">
+                                            <!-- Headers will be dynamically generated here -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Rows will be dynamically generated here -->
+                                    </tbody>
+                                </table>
+
+                                <!-- Clickable areas for adding rows and columns -->
+                                <div id="rowHandle" onclick="addRow()"><span class="place">+</span></div>
+                                <div id="columnHandle" onclick="addColumn()"><span class="place">+</span></div>
+
+                                <!-- Submit button outside the table container -->
+                                <div id="buttonContainer">
+                                    <button type="submit" class="green">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="container" id="propsal_view">
+                            <div id="buttonContainerpropsal">
+                                <!-- Buttons for each proposal will be generated here -->
+                            </div>
+                            <!-- Additional content can be displayed here -->
+                        </div>
                     </div>
+
                     <div class="content" id="report" style="display: none;">
                         <h2>report</h2>
                         <p>This is the View Proposal content.</p>
@@ -119,6 +146,7 @@ require_once ('./back/php/check_login_status.php');
 
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
+        <script src="./front/js/table.js"></script>
 
         <!-- Mammoth.js Library for DOCX -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>

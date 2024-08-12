@@ -1,17 +1,3 @@
-// for the displaying the propsal
-const proposals = [
-    {
-        name: "Example Proposal 1",
-        sender: "John Doe",
-        url: ""
-    },
-    {
-        name: "Example Proposal 2",
-        sender: "Jane Smith",
-        url: "/path/to/doc2.docx"
-    }
-    // Add more proposals as needed
-];
 
 function loadDocx(url) {
     fetch(url)
@@ -40,8 +26,6 @@ function createButtons() {
     });
 }
 
-// Generate the buttons when the page loads
-window.onload = createButtons;
 
 
 
