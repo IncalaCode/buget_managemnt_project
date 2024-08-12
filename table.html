@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proposal Submission Table</title>
+    <link rel="stylesheet" href="table.css">
+</head>
+
+<body>
+    <h1 id="title">Proposal Submission Table</h1>
+    <div id="tableContainer" style="position: relative;">
+        <table id="itemTable">
+            <thead>
+                <tr id="headerRow">
+                    <th>Row-Number</th>
+                    <th>Item-code</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><input type="text" placeholder="Enter item code"></td>
+                    <td><input type="text" placeholder="Enter name"></td>
+                    <td><input type="text" placeholder="Enter description"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Clickable areas for adding rows and columns -->
+        <div id="rowHandle" onclick="addRow()">+</div>
+        <div id="columnHandle" onclick="addColumn()">+</div>
+    </div>
+
+    <!-- Save and Submit buttons outside the table container -->
+    <div id="buttonContainer">
+        <button onclick="saveTable()">Save</button>
+        <button onclick="submitTable()">Submit</button>
+    </div>
+
+    <script src="table.js"></script>
+</body>
+
+</html>
