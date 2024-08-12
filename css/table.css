@@ -1,0 +1,139 @@
+h1 {
+    text-align: center;
+    color: #090909;
+}
+
+/* Table styles */
+#tableContainer {
+    margin: 20px auto;
+    padding: 10px;
+    width: 100%;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    position: relative;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+th,
+td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #b4b4b4;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+tr:last-child {
+    border-bottom: none;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin: 4px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Button styles */
+button {
+    background-color: hsl(12, 89%, 62%);
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #ba300a;
+}
+
+button:focus {
+    outline: none;
+}
+
+/* Handles for adding rows and columns */
+#rowHandle,
+#columnHandle {
+
+    color: #fff;
+    font-size: 16px;
+    text-align: center;
+    justify-content: center;
+    justify-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#rowHandle {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    /* bottom: -40px; */
+    left: 0;
+    line-height: 40px;
+}
+
+#columnHandle {
+    width: 40px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: -40px;
+    line-height: 40px;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+}
+
+#rowHandle:hover,
+#columnHandle:hover {
+    background-color: #1b1d1b;
+}
+
+.palce {
+    display: inline-block;
+    padding: 10px;
+    width: 10px;
+    height: 5px;
+    background-color: #555;
+    border-radius: 25%;
+}
+
+#buttonContainer {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.green {
+    background-color: greenyellow;
+}
+
+.green:hover {
+    background-color: #b4b4b4;
+}

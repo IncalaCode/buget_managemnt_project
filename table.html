@@ -1,47 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proposal Submission Table</title>
-    <link rel="stylesheet" href="table.css">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Create Word Document</title>
+        <!-- Include docx.js library via CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.2.2/docx.js"></script>
+        <!-- Include FileSaver.js library via CDN -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    </head>
 
-<body>
-    <h1 id="title">Proposal Submission Table</h1>
-    <div id="tableContainer" style="position: relative;">
-        <table id="itemTable">
-            <thead>
-                <tr id="headerRow">
-                    <th>Row-Number</th>
-                    <th>Item-code</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>1</td>
-                    <td><input type="text" placeholder="Enter item code"></td>
-                    <td><input type="text" placeholder="Enter name"></td>
-                    <td><input type="text" placeholder="Enter description"></td>
-                </tr>
-            </tbody>
-        </table>
+    <body>
 
-        <!-- Clickable areas for adding rows and columns -->
-        <div id="rowHandle" onclick="addRow()">+</div>
-        <div id="columnHandle" onclick="addColumn()">+</div>
-    </div>
+        <button id="generate">Generate Word Document</button>
 
-    <!-- Save and Submit buttons outside the table container -->
-    <div id="buttonContainer">
-        <button onclick="saveTable()">Save</button>
-        <button onclick="submitTable()">Submit</button>
-    </div>
+        <script>
+            document.getElementById("generate").addEventListener("click", function () {
+                generateWordDocument();
+            });
 
-    <script src="table.js"></script>
-</body>
+            function generateWordDocument() {
+                // Create a new instance of Document from the docx module
+                const doc = new docx.Document();
+
+                // Add content to the document
+                doc.addSection({
+                    children: [
+                        new docx.Paragraph({
+                            text: "Title",
+                            heading: docx.HeadingLevel.TITLE
+                        }),
+                        new docx.Paragraph({
+                            text: "Subtitle",
+                            heading: docx.HeadingLevel.HEADING_1
+                        }),
+                        new docx.Paragraph({
+                            text: "Heading 1",
+                            heading: docx.HeadingLevel.HEADING_2
+                        }),
+                        new docx.Paragraph({
+                            text: "Heading 2",
+                            heading: docx.HeadingLevel.HEADING_2
+                        }),
+                        new docx.Paragraph(
+                            "Aliquam gravida quam sapien, quis dapibus eros malesuada vel. Praesent tempor aliquam iaculis. Nam ut neque ex. Curabitur pretium laoreet nunc, ut ornare augue aliquet sed. Pellentesque laoreet sem risus. Cras sodales libero convallis, convallis ex sed, ultrices neque. Sed quis ullamcorper mi. Ut a leo consectetur, scelerisque nibh sit amet, egestas mauris. Donec augue sapien, vestibulum in urna et, cursus feugiat enim. Ut sit amet placerat quam, id tincidunt nulla. Cras et lorem nibh. Suspendisse posuere orci nec ligula mattis vestibulum. Suspendisse in vestibulum urna, non imperdiet enim. Vestibulum vel dolor eget neque iaculis ultrices."
+                        )
+                    ]
+                });
+
+                // Use Packer to convert the document to a Blob
+                docx.Packer.toBlob(doc).then(blob => {
+                    // Save the file using saveAs from the file-saver package
+                    saveAs(blob, "New Document.docx");
+                });
+            }
+        </script>
+
+    </body>
 
 </html>

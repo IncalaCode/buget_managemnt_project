@@ -217,6 +217,7 @@ body {
 }
 
 .left-side {
+    width: 20px;
     overflow-y: auto;
     border-right: 1px solid #ccc;
 }
