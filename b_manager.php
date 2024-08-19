@@ -2,6 +2,7 @@
 // // some imports in here
 $url = "b_manager";
 require_once ('./back/php/check_login_status.php');
+require_once('./back/php/director/add_propsal.php')
 ?>
 
 <!DOCTYPE html>
@@ -18,11 +19,13 @@ require_once ('./back/php/check_login_status.php');
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
+        <link rel="stylesheet" href="./css/table.css">
+        <?php include('./back/php/director/get_propsal.php')?>
 
 
     </head>
 
-    <body>
+    <>
         <div class="container-fluid">
             <div class="row">
                 <!-- Sidebar -->
@@ -40,7 +43,7 @@ require_once ('./back/php/check_login_status.php');
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="#" data-bs-target="#viewProposal">
+                                    <a class="nav-link" href="#" data-bs-target="#uploadProposal">
                                         <i class="bi bi-file-earmark-text me-2"></i><span class="text">View
                                             Proposal</span>
                                     </a>
@@ -84,19 +87,54 @@ require_once ('./back/php/check_login_status.php');
                         <h2>View Status</h2>
                         <p>This is the View Status content.</p>
                     </div>
-                    <div class="content" id="viewProposal" style="display: none;">
-                        <h2>View Proposal</h2>
-                        <div class="container-fluid d-flex">
-                            <div class="row flex-fill">
-                                <div class="col-md-4 left-side p-3" id="buttonContainer">
-                                    <!-- Buttons will be generated here by JavaScript -->
+                    <div class="content" id="uploadProposal" style="display: none;">
+
+
+                        <div id="tableContainer" style="position: relative;">
+
+
+                            <form id="tableForm" action="./b_manager.php" method="post">
+
+                                <div class="top-right-buttons">
+                                    <input type="text" id="total" name="total" value="0" readonly>
+                                    <button class="p_button" type="submit" name="submit" value="dowlode_dox">download
+                                        table</button>
+                                    <button class="p_button" type="submit" name="submit" value="insert_ibx">Insert To
+                                        Ibx</button>
+
                                 </div>
-                                <div class="col-md-8 right-side p-3">
-                                    <div id="viewer" class="viewer"></div>
+
+                                <input type="hidden" id="code" name="code" value="total">
+                                <table id="itemTable">
+                                    <thead>
+                                        <tr id="headerRow">
+                                            <!-- Headers will be dynamically generated here -->
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Rows will be dynamically generated here -->
+                                    </tbody>
+                                </table>
+
+                                <!-- Clickable areas for adding rows and columns -->
+                                <div id="rowHandle" onclick="addRow()"><span class="place">+</span></div>
+                                <div id="columnHandle" onclick="addColumn()"><span class="place">+</span></div>
+
+                                <!-- Submit button outside the table container -->
+                                <div id="buttonContainer">
+                                    <button type="submit" class="green">update</button>
                                 </div>
+                            </form>
+                        </div>
+
+                        <div class="container" id="propsal_view">
+                            <div id="buttonContainerpropsal">
+                                <!-- Buttons for each proposal will be generated here -->
                             </div>
+                            <!-- Additional content can be displayed here -->
                         </div>
                     </div>
+
                     <div class="content" id="report" style="display: none;">
                         <h2>report</h2>
                         <p>This is the View Proposal content.</p>
@@ -116,6 +154,7 @@ require_once ('./back/php/check_login_status.php');
 
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
+        <script src="./front/js/table.js"></script>
 
         <!-- Mammoth.js Library for DOCX -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
@@ -134,6 +173,6 @@ require_once ('./back/php/check_login_status.php');
         ?>
         </script>
 
-    </body>
+        </body>
 
 </html>

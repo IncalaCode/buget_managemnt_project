@@ -1,6 +1,6 @@
 <?php
 require 'vendor/autoload.php';
-require './back/php/connect.php';
+
 
 use Smalot\PdfParser\Parser;
 use PhpOffice\PhpWord\PhpWord;
@@ -82,48 +82,45 @@ function saveFilePathToDatabase($topic, $filepath, $description) {
     return true;
 }
 
+function generateAndDownloadDocxTable($data, $totalBudget) {
+    // Extract headers and rows from the data
+    $headers = $data['head'];
+    $rows = $data['body'];
 
-function generateDocx() {
     // Create a new PHPWord object
     $phpWord = new PhpWord();
 
-    // Add a new section
+    // Add a new section to the document
     $section = $phpWord->addSection();
 
-    // Define table style
-    $tableStyle = array('borderSize' => 6, 'borderColor' => '999999');
-    $phpWord->addTableStyle('TableStyle', $tableStyle);
+    // Add a table to the section with proper width
+    $table = $section->addTable(['width' => 100 * 50]);
 
-    // Add table
-    $table = $section->addTable('TableStyle');
-
-    // Define table headers and rows
-    $headers = ['Column 1', 'Column 2', 'Column 3'];
-    $rows = [
-        ['Row 1 Cell 1', 'Row 1 Cell 2', 'Row 1 Cell 3'],
-        ['Row 2 Cell 1', 'Row 2 Cell 2', 'Row 2 Cell 3'],
-        ['Row 3 Cell 1', 'Row 3 Cell 2', 'Row 3 Cell 3'],
-        ['', '', ''] // Empty row example
-    ];
-
-    // Add headers to the table
+    // Add table headers
     $table->addRow();
     foreach ($headers as $header) {
-        $table->addCell()->addText($header);
+        $table->addCell(2000)->addText($header);  // Adjust cell width if needed
     }
 
-    // Add rows to the table
+    // Add table rows
     foreach ($rows as $row) {
         $table->addRow();
-        foreach ($row as $cellData) {
-            $table->addCell()->addText($cellData);
+        foreach ($row as $cell) {
+            $table->addCell(2000)->addText($cell);  // Adjust cell width if needed
         }
     }
 
-    // Save the document to a temporary file
-    $filename = "table.docx";
-    $temp_file = tempnam(sys_get_temp_dir(), $filename);
-    $phpWord->save($temp_file, 'Word2007', true);
+    // Add two empty lines
+    $section->addTextBreak(2);
+
+    // Add the total budget text
+    $section->addText($totalBudget);
+
+    // Save the document as a temporary DOCX file
+    $filename = 'table.docx';
+    $temp_file = tempnam(sys_get_temp_dir(), 'phpword');
+    $writer = IOFactory::createWriter($phpWord, 'Word2007');
+    $writer->save($temp_file);
 
     // Set headers to download the file
     header("Content-Description: File Transfer");
@@ -136,8 +133,6 @@ function generateDocx() {
     unlink($temp_file); // Remove the temporary file
     exit;
 }
-
-generateDocx();
 
 
 ?>

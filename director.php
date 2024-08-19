@@ -95,6 +95,8 @@ require_once('./back/php/director/add_propsal.php')
 
                         <div id="tableContainer" style="position: relative;">
                             <form id="tableForm" action="./director.php" method="post">
+                                <input type="hidden" id="code" name="code"
+                                    value="<?php echo $_SESSION['user']['code'] ?>">
                                 <table id="itemTable">
                                     <thead>
                                         <tr id="headerRow">
@@ -124,6 +126,7 @@ require_once('./back/php/director/add_propsal.php')
                             <!-- Additional content can be displayed here -->
                         </div>
                     </div>
+
 
                     <div class="content" id="report" style="display: none;">
                         <h2>report</h2>

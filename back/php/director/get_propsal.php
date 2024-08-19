@@ -1,21 +1,30 @@
 <?php 
 
 // require_once('./back/php/varable_session.php');
-// require_once('./back/php/connect.php');
+require_once('./back/php/connect.php');
 
 // Initialize the database connection
 $connect = connect();
 
 // Construct the SQL query securely
-$statusCondition = ($GLOBALS['url'] == "b_manager") ? " AND status = true" : "";
 $code = $connect->real_escape_string($_SESSION['user']['code']);
-$sql = "SELECT data,code,time FROM propsal WHERE code = '$code'$statusCondition";
+$statusCondition = ($GLOBALS['url'] == "b_manager") ? "  status = '1'" : "code = '$code' ";
+
+$sql = "SELECT id,data,code,time FROM propsal WHERE $statusCondition";
 
 // Execute the query
 $result = $connect->query($sql);
 
 // Fetch the result as an associative array
-$data = $result->fetch_assoc();
+$data = $result->fetch_all(MYSQLI_ASSOC);
+
+if($statusCondition != ""){
+    addtotal();
+}
+
+function addtotal(){
+    
+}
 
 // Convert the data to JSON format
 $jsonData = json_encode($data);

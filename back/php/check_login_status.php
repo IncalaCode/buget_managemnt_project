@@ -1,6 +1,6 @@
 <?php
 require_once('varable_session.php'); // Ensure this file starts the session and includes session variables
-
+require_once('record.php');
 function check_user() {
     if (!isset($_SESSION['user'])) {  
         header("location: login.php");
@@ -31,9 +31,12 @@ function check_url(){
 // Call the check function to ensure the user is logged in
 if(check_user()){   
     if(check_url()){
-        $message = array('status' => "success", 'message' => "Welcome back " . $_SESSION['user']['username']);
-    }
-    
+        if(!isset($message)){
+            $message = array('status' => "success", 'message' => "Welcome back " . $_SESSION['user']['username']);
+        }
+        
+    } 
+    $buget = get_buget();
 }
 
 ?>

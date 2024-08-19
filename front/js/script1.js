@@ -1,3 +1,9 @@
+var sp = location.pathname.split("/")
+
+if (sp.includes('g_manager.php')) {
+    document.getElementById('budgetDuration').min = new Date().toISOString().split('T')[0];
+}
+
 
 function loadDocx(url) {
     fetch(url)

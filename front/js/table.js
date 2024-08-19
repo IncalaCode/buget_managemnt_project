@@ -1,4 +1,127 @@
 let dragSrcEl = null;
+let table_set = false
+
+
+function aggregateBudgets(data) {
+    const combinedResult = {
+        head: [],
+        body: [],
+        footer: null,
+        totalBudget: 0 // Initialize total budget
+    };
+
+    const budgetMap = {};
+
+    data.forEach(item => {
+        const parsedData = JSON.parse(item.data);
+
+        // Initialize the header if it's not set yet
+        if (combinedResult.head.length === 0) {
+            combinedResult.head = parsedData.head;
+        }
+
+        // Handle body as either array or object
+        const body = Array.isArray(parsedData.body) ? parsedData.body : Object.values(parsedData.body);
+
+        const itemCodeIndex = parsedData.head.indexOf("Item-code");
+        const budgetIndex = parsedData.head.indexOf("buget");
+
+        body.forEach(row => {
+            const itemCode = row[itemCodeIndex];
+            const budgetValue = parseFloat(row[budgetIndex]) || 0;
+
+            if (budgetMap[itemCode]) {
+                budgetMap[itemCode].budget += budgetValue;
+            } else {
+                budgetMap[itemCode] = {
+                    row: [...row],
+                    budgetIndex: budgetIndex,
+                    budget: budgetValue
+                };
+            }
+        });
+    });
+
+    let rowIndex = 1;
+    for (const itemCode in budgetMap) {
+        const item = budgetMap[itemCode];
+        item.row[0] = String(rowIndex); // Update Row-Number dynamically
+        item.row[item.budgetIndex] = String(item.budget); // Update budget
+        combinedResult.body.push(item.row);
+        combinedResult.totalBudget += item.budget; // Accumulate total budget
+        rowIndex++;
+    }
+
+    return combinedResult;
+}
+
+
+// function aggregateData(data) {
+//     const result = {
+//         head: [],
+//         body: [],
+//         footer: null,
+//         totalBudget: 0
+//     };
+
+//     const columnIndexes = {};
+//     const rows = {};
+//     const seenColumns = new Set();
+
+//     data.forEach(entry => {
+//         const parsedData = JSON.parse(entry.data);
+//         const { head, body } = parsedData;
+
+//         // Update columns list
+//         head.forEach((column, index) => {
+//             if (!seenColumns.has(column)) {
+//                 seenColumns.add(column);
+//                 result.head.push(column);
+//                 columnIndexes[column] = index;
+//             }
+//         });
+
+//         // Process rows
+//         body.forEach(row => {
+//             const itemCode = row[columnIndexes['Item-code']];
+//             if (!rows[itemCode]) {
+//                 rows[itemCode] = Array(result.head.length).fill('');
+//                 rows[itemCode][columnIndexes['Row-Number']] = row[columnIndexes['Row-Number']];
+//                 rows[itemCode][columnIndexes['Item-code']] = itemCode;
+//             }
+
+//             // Aggregate buget
+//             const budgetIndex = columnIndexes['buget'];
+//             if (budgetIndex !== undefined && row[budgetIndex]) {
+//                 rows[itemCode][budgetIndex] = (parseFloat(rows[itemCode][budgetIndex] || 0) + parseFloat(row[budgetIndex])).toFixed(2);
+//             }
+
+//             // Add additional columns
+//             for (let column in columnIndexes) {
+//                 if (column !== 'Item-code' && column !== 'Row-Number' && row[columnIndexes[column]] !== undefined) {
+//                     rows[itemCode][columnIndexes[column]] = row[columnIndexes[column]];
+//                 }
+//             }
+//         });
+
+//         // Add total budget
+//         data.forEach(entry => {
+//             const parsedData = JSON.parse(entry.data);
+//             parsedData.body.forEach(row => {
+//                 const budgetIndex = columnIndexes['buget'];
+//                 if (budgetIndex !== undefined) {
+//                     result.totalBudget += parseFloat(row[budgetIndex] || 0);
+//                 }
+//             });
+//         });
+
+//         // Convert rows to array
+//         result.body = Object.values(rows);
+//     });
+
+//     return result;
+// }
+
 
 function dragStart(event) {
     dragSrcEl = event.target.closest('th');
@@ -139,12 +262,6 @@ function getTableData() {
 }
 
 
-// Initialize buttons and table on DOMContentLoaded
-document.addEventListener('DOMContentLoaded', () => {
-
-    createButtonsAndDisplayData();
-    displayExampleTable();
-});
 
 // Function to create buttons and display table data
 function createButtonsAndDisplayData() {
@@ -155,20 +272,30 @@ function createButtonsAndDisplayData() {
 
     // Iterate over window.data and create buttons
     if (window.data && window.data.length > 0) {
+
+        if (!Array.isArray(window.data)) {
+            window.data = [window.data]
+            table_set = true
+        }
+
         window.data.forEach((item, index) => {
-            const button = document.createElement('button');
-            button.textContent = `View Proposal ${index + 1}`;
-            button.classList.add('btn', 'btn-primary', 'm-2');
+            item.forEach((item, index) => {
+                const button = document.createElement('button');
+                button.textContent = `code: ${item.code} [ ${item.time}]`;
+                button.classList.add('btn', 'btn-primary', 'm-2');
 
-            // Add click event listener to display table data
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
-                displayTableData(JSON.parse(item.data));
-            });
+                // Add click event listener to display table data
+                button.addEventListener('click', (event) => {
+                    document.getElementById("code").value = item.id
+                    event.preventDefault();
+                    displayTableData(JSON.parse(item.data));
+                });
 
-            // Append button to the container
-            buttonContainer.appendChild(button);
+                // Append button to the container
+                buttonContainer.appendChild(button);
+            })
         });
+
     } else {
         // No data available, display a sample table
         displayExampleTable();
@@ -282,11 +409,11 @@ function displayExampleTable() {
     const tbody = table.querySelector('tbody');
 
     // Example headers and data
-    const exampleHeaders = ['Row-Number', 'Item-code', 'Name', 'Description', "action"];
+    const exampleHeaders = ['Row-Number', 'Item-code', 'buget', "action"];
     const exampleRows = [
-        ['1', 'A123', 'Example Item 1', 'This is an example description 1'],
-        ['2', 'B456', 'Example Item 2', 'This is an example description 2'],
-        ['3', 'C789', 'Example Item 3', 'This is an example description 3']
+        ['1', '123', '100',],
+        ['2', '456', '50',],
+        ['3', '789', '80',]
     ];
 
     // Populate headers
@@ -340,4 +467,42 @@ function displayExampleTable() {
 
         tbody.appendChild(tr);
     });
+}
+
+
+
+// Initialize buttons and table on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+
+    createButtonsAndDisplayData();
+    if (!Array.isArray(window.data)) {
+        displayExampleTable();
+    } else {
+        const buttonContainer = document.getElementById('buttonContainerpropsal');
+        const combinedResult = aggregateBudgets(data[0]);
+        document.getElementById("code").value = "total"
+        document.getElementById('total').value = "total buget :" + combinedResult.totalBudget
+        displayTableData(combinedResult);
+
+        const button = document.createElement('button');
+        button.textContent = `Total propsal`;
+        button.classList.add('btn', 'btn-primary', 'm-2');
+
+        // Add click event listener to display table data
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            document.getElementById("code").value = "total";
+            (combinedResult) ? displayTableData(combinedResult) : displayExampleTable();
+        });
+
+        // Append button to the container
+        buttonContainer.appendChild(button);
+    }
+
+});
+
+var sp = location.pathname.split("/")
+
+if (sp.includes('director.php')) {
+    displayExampleTable();
 }

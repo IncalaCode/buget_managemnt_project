@@ -246,3 +246,25 @@ body {
     height: 100%;
     overflow: auto;
 }
+
+
+.top-right-buttons {
+    position: relative;
+
+    display: flex;
+    gap: 10px;
+}
+
+.p_button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.p_button:hover {
+    background-color: #0056b3;
+}

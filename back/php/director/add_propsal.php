@@ -1,6 +1,8 @@
 <?php 
 
 require_once('./back/php/connect.php');
+require_once('./back/php/convert_pdf_to_docx.php');
+require_once('./back/php/record.php');
 
 function sanitizeInput($data) {
     return htmlspecialchars(trim($data));
@@ -48,16 +50,23 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt = null;
     try {
         $connect = connect();
+if(isset($_POST['submit'])){
+    if($_POST['submit'] == "dowlode_dox" or $_POST['submit'] == "insert_ibx"){
+        $message =  make_ibx();
+        return;
+     }
 
+}
         // Convert data to JSON
         $tableData = checktable();
+        $code = $_POST['code'];
         $jsonData = $tableData ? json_encode($tableData) : json_encode([]);
 
         $time = date('Y-m-d H:i:s');
-
-        if (checkProposalExists($connect, $_SESSION['user']['id'])) {
+        $code = (!$code) ? $_SESSION['user']['id'] : $code;
+        if (checkProposalExists($connect,$code)) {
             // Update existing proposal
-            $updateResult = updateProposal($connect, $_SESSION['user']['id'], $jsonData, $time);
+            $updateResult = updateProposal($connect, $code, $jsonData, $time);
             if (!$updateResult) {
                 $message = array("status" => "error", "message" => "Unable to update Proposal successfully", 'navigateToSlide' => "uploadProposal");
             } else {
@@ -105,6 +114,43 @@ function updateProposal($connect, $id, $jsonData, $time) {
     $stmt->bind_param("ssi", $jsonData, $time, $id);
     $stmt->execute();
     return $stmt->affected_rows > 0;
+}
+
+function make_ibx() {
+
+    $message = array("status" => "error", "message" => "ony the total propsal will be send", 'navigateToSlide' => "uploadProposal");
+    
+    if ( is_array($_POST['headers'])) {
+        array_pop($_POST['headers']);
+    }
+    if ($_POST['submit'] === "dowlode_dox") {
+        $data = checktable();
+        generateAndDownloadDocxTable($data,$_POST['total']);
+    }
+    if($_POST['code'] == "total"){
+        $data = checktable();
+        $data = ibx($data);
+       $message =  update_ibx($data);
+    }
+    return $message;
+}
+
+function ibx($data) {
+    $transformedBody = [];
+
+    foreach ($data['body'] as $row) {
+        $pairedRow = [];
+
+        foreach ($row as $item) {
+            $pairedRow[] = "{$item}: {$item}";
+        }
+
+        $transformedBody[] = $pairedRow;
+    }
+
+    $data['body'] = $transformedBody;
+
+    return $data;
 }
 
 ?>
