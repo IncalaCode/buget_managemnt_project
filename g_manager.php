@@ -18,6 +18,12 @@ include_once('./back/php/g.manager/admin_create_account.php'); ?>
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
+        <?php
+        $escapedJsonData = json_encode($buget);
+        echo "<script>
+    window.buget = JSON.parse('[$escapedJsonData]');
+    console.log(window.buget);
+            </script>"; ?>
 
 
     </head>
@@ -89,8 +95,29 @@ include_once('./back/php/g.manager/admin_create_account.php'); ?>
                 <main class="col-md-9 col-lg-10 px-md-4 main-content">
                     <div class="content" id="viewStatus">
                         <h2>View Status</h2>
-                        <p>This is the View Status content.</p>
+
+                        <div id="buget_contanier" class="card shadow-lg p-4 justify-content-center align-items-center"
+                            style="width: 100%; max-width: 400px;">
+                            <div class="card-body">
+                                <h5 class="card-title text-center mb-4">Set Your Budget</h5>
+                                <form action="" method="POST">
+                                    <div class="mb-3">
+                                        <label for="budgetLimit" class="form-label">Budget Limit</label>
+                                        <input type="number" class="form-control" id="budgetLimit" name="buget_limit"
+                                            placeholder="Enter your budget limit" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="budgetDuration" class="form-label">Budget Duration</label>
+                                        <input type="date" class="form-control" id="budgetDuration"
+                                            name="budgetDuration" required>
+                                    </div>
+                                    <button type="submit" name="set_buget" value="set_buget"
+                                        class="btn btn-primary w-100">Submit</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
+
                     <div class="content" id="messages" style="display: none;">
                         <h2>Messages</h2>
                         <p>This is the Messages content.</p>
@@ -223,6 +250,22 @@ include_once('./back/php/g.manager/admin_create_account.php'); ?>
         <?php endif;
         $message = null;
         ?>
+
+        function set_table() {
+            if (buget[0].status === "success") {
+                const budgetEndDate = new Date(buget[0].time);
+                const now = new Date();
+
+                if (budgetEndDate >= now) {
+                    return document.getElementById('buget_contanier').style.display = "none";
+                }
+                NotyfService.showMessage("error", 'Budget Duration passed');
+            }
+            document.getElementById('buget_contanier').style.display = "block";
+
+        }
+
+        set_table();
         </script>
 
     </body>

@@ -2,7 +2,7 @@
 
 require_once('./back/php/varable_session.php');
 require_once('./back/php/connect.php');
-
+require_once('./back/php/record.php');
 // Function to sanitize input data
 function filter_input_data($data) {
     return filter_var($data, FILTER_SANITIZE_SPECIAL_CHARS);
@@ -10,6 +10,14 @@ function filter_input_data($data) {
 
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    
+    $connect = connect();
+    
+    if(isset($_POST['set_buget'])){
+     $message = setbuget();
+     $buget = get_buget();
+        return;
+    }
 
     $role = filter_input_data($_POST['role']);
     $first_name = filter_input_data($_POST['first_name']);
@@ -29,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     try {
-        $connect = connect();
+        
         
         // Prepare the SQL statement
         $stmt = $connect->prepare("INSERT INTO employ (role, fname, lname, phonenum, password,username,code) VALUES (?, ?, ?, ?, ?,?,?)");
@@ -50,5 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } catch (Exception $e) {
         $message = array("status" => "error", "message" => "Error: " . $e->getMessage(),'navigateToSlide' => "User_list");
     }
+
 }
+
 ?>
