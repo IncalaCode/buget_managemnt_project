@@ -50,6 +50,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $stmt = null;
     try {
         $connect = connect();
+
+        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+            if(isset($_POST['request'])){
+                $message = submitForFinanceReview($_POST);
+            }
+            return;
+        }        
+
 if(isset($_POST['submit'])){
     if($_POST['submit'] == "dowlode_dox" or $_POST['submit'] == "insert_ibx"){
         $message =  make_ibx();
@@ -99,7 +107,7 @@ if(isset($_POST['submit'])){
 }
 
 function checkProposalExists($connect, $id) {
-    $sql = "SELECT COUNT(*) AS count FROM propsal WHERE id = ? and status = true";
+    $sql = "SELECT COUNT(*) AS count FROM propsal WHERE id = ? and status = 1";
     $stmt = $connect->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -118,7 +126,7 @@ function updateProposal($connect, $id, $jsonData, $time) {
 
 function make_ibx() {
 
-    $message = array("status" => "error", "message" => "ony the total propsal will be send", 'navigateToSlide' => "uploadProposal");
+    $message = array("status" => "error", "message" => "oniy the total propsal will be send", 'navigateToSlide' => "uploadProposal");
     
     if ( is_array($_POST['headers'])) {
         array_pop($_POST['headers']);
@@ -128,10 +136,17 @@ function make_ibx() {
         generateAndDownloadDocxTable($data,$_POST['total']);
     }
     if($_POST['code'] == "total"){
+        $intal  = intval(mb_split(":",$_POST['total'])[1]);
+        $buget = intval($_SESSION['buget']['buget_limit']);
+        if($buget >  $intal){
         $data = checktable();
         $data = ibx($data);
        $message =  update_ibx($data);
+        }else{
+            $message = array("status" => "error", "message" => "limited buget", 'navigateToSlide' => "uploadProposal");
+        }
     }
+    
     return $message;
 }
 
@@ -142,6 +157,7 @@ function ibx($data) {
         $pairedRow = [];
 
         foreach ($row as $item) {
+            // Assuming $item is a single value, we'll double it to create a "total: change" pair
             $pairedRow[] = "{$item}: {$item}";
         }
 
@@ -152,5 +168,6 @@ function ibx($data) {
 
     return $data;
 }
+
 
 ?>

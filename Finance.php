@@ -1,6 +1,8 @@
 <?php 
 // // some imports in here
+$url = "finance" ;
 require_once ('./back/php/check_login_status.php');
+require_once('./back/php/aprrove_system.php');
 ?>
 
 <!DOCTYPE html>
@@ -38,14 +40,10 @@ require_once ('./back/php/check_login_status.php');
                                         <i class="bi bi-speedometer2 me-2"></i><span class="text">View Status</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" data-bs-target="#report">
-                                        <i class="bi bi-file-earmark-text me-2"></i><span class="text">Report</span>
-                                    </a>
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#messages">
-                                        <i class="bi bi-envelope me-2"></i><span class="text">Messages</span>
+                                        <i class="bi bi-envelope me-2"></i><span class="text">approval</span>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -75,11 +73,12 @@ require_once ('./back/php/check_login_status.php');
                 <main class="col-md-9 col-lg-10 px-md-4 main-content">
                     <div class="content" id="viewStatus">
                         <h2>View Status</h2>
-                        <p>This is the View Status content.</p>
+                        <div id="table-container"></div>
+
                     </div>
                     <div class="content" id="messages" style="display: none;">
-                        <h2>Messages</h2>
-                        <p>This is the Messages content.</p>
+                        <h2>approval request list</h2>
+                        <?php include_once("./back/php/display_approval.php")?>
                     </div>
                 </main>
             </div>
