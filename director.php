@@ -54,10 +54,7 @@ require_once('./back/php/director/add_propsal.php')
                                             send Proposal</span>
                                     </a>
                                 </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="#" data-bs-target="#report">
-                                        <i class="bi bi-file-earmark-text me-2"></i><span class="text">Report</span>
-                                    </a>
+
 
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#messages">

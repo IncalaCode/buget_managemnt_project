@@ -9,7 +9,7 @@ if (ibx && ibx.body && ibx.body.length > 0) {
     ibx.body.forEach(row => {
         row.forEach((value, index) => {
             const amounts = value.split(':').map(Number);
-            const [total, change] = amounts;
+            const [change, total] = amounts;
 
             if (total === change) {
                 // If total equals change, show only the total value
