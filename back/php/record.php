@@ -122,6 +122,56 @@ function req_ibx($data, $budget_request) {
     return $message;
 }
 
+function submitForFinanceReview($budget_request) {
+    require_once('./back/php/connect.php');
+    $connect = connect();
+
+    // Fetch the current budget data from the proposal table
+    $stmt = $connect->prepare("SELECT data FROM propsal WHERE code = ? AND id = ? AND status = 1");
+    $stmt->bind_param("ii", $_SESSION['user']['code'], $_SESSION['user']['id']);
+    $stmt->execute();
+    $stmt->bind_result($dataJson);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($dataJson) {
+        // Decode the JSON data
+        $data = json_decode($dataJson, true);
+
+        // Check if the budget is sufficient
+        $sufficientBudget = false;
+        if (isset($data['body'])) {
+            foreach ($data['body'] as &$row) {
+                if ($row[1] == $budget_request['code']) { // Assuming $row[1] is the Item-code
+                    $currentBudget = floatval($row[2]); // Assuming $row[2] is the budget value
+                    if ($currentBudget >= $budget_request['amount']) {
+                        $sufficientBudget = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if ($sufficientBudget) {
+            // Insert the budget request into the finance_review table
+            $stmt = $connect->prepare("INSERT INTO finance_review (id_code, code, amount, review_status, review_time) VALUES (?, ?, ?, 'Pending', NOW())");
+            $stmt->bind_param("isi", $_SESSION['user']['code'], $budget_request['code'], $budget_request['amount']);
+          
+            if ($stmt->execute()) {
+                $message = array("status" => "success", "message" => "Budget request submitted for finance review.", 'navigateToSlide' => "viewStatus");
+            } else {
+                $message = array("status" => "error", "message" => "Failed to submit budget request for finance review.", 'navigateToSlide' => "viewStatus");
+            }
+        } else {
+            $message = array("status" => "error", "message" => "Insufficient budget or Budget data not found for the specified code.", 'navigateToSlide' => "viewStatus");
+        }
+    } else {
+        $message = array("status" => "error", "message" => "Budget data not found for the specified code.", 'navigateToSlide' => "viewStatus");
+    }
+
+    return $message;
+}
+
 
 function checkAndProcessCode($code, $amount) {
     require_once('./back/php/connect.php');

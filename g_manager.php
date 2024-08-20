@@ -1,7 +1,10 @@
 <?php
 $url = "g_manager";
 require_once ('./back/php/check_login_status.php'); 
-include_once('./back/php/g.manager/admin_create_account.php'); ?>
+include_once('./back/php/g.manager/admin_create_account.php');
+
+?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,11 +22,9 @@ include_once('./back/php/g.manager/admin_create_account.php'); ?>
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
         <?php
-        $escapedJsonData = json_encode($buget);
-        echo "<script>
-    window.buget = JSON.parse('[$escapedJsonData]');
-    console.log(window.buget);
-            </script>"; ?>
+        include_once('./back/php/get_buget.php');
+        ?>
+        <script src="./front/js/jst.js"></script>
 
 
     </head>
@@ -117,6 +118,8 @@ include_once('./back/php/g.manager/admin_create_account.php'); ?>
                             </div>
                         </div>
                     </div>
+
+                    <div id="table-container"></div>
 
                     <div class="content" id="messages" style="display: none;">
                         <h2>Messages</h2>

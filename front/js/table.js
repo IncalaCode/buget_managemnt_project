@@ -288,6 +288,7 @@ function createButtonsAndDisplayData() {
                 button.addEventListener('click', (event) => {
                     document.getElementById("code").value = item.id
                     event.preventDefault();
+                    document.getElementById("buttonContainer").style.visibility = "visible";
                     displayTableData(JSON.parse(item.data));
                 });
 
@@ -478,25 +479,31 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!Array.isArray(window.data)) {
         displayExampleTable();
     } else {
-        const buttonContainer = document.getElementById('buttonContainerpropsal');
-        const combinedResult = aggregateBudgets(data[0]);
-        document.getElementById("code").value = "total"
-        document.getElementById('total').value = "total buget :" + combinedResult.totalBudget
-        displayTableData(combinedResult);
+        var sp = location.pathname.split("/")
 
-        const button = document.createElement('button');
-        button.textContent = `Total propsal`;
-        button.classList.add('btn', 'btn-primary', 'm-2');
+        if (sp.includes('b_manager.php')) {
+            const buttonContainer = document.getElementById('buttonContainerpropsal');
+            const combinedResult = aggregateBudgets(data[0]);
+            document.getElementById("code").value = "total"
+            document.getElementById('total').value = (combinedResult.totalBudget > buget[0].buget_limit) ? `  greater than expacted buget_limite [${buget[0].buget_limit}]` + " total buget :" + combinedResult.totalBudget : " under buget_limit" + " total buget :" + combinedResult.totalBudget
+            displayTableData(combinedResult);
 
-        // Add click event listener to display table data
-        button.addEventListener('click', (event) => {
-            event.preventDefault();
-            document.getElementById("code").value = "total";
-            (combinedResult) ? displayTableData(combinedResult) : displayExampleTable();
-        });
+            const button = document.createElement('button');
+            button.textContent = `Total propsal`;
+            button.classList.add('btn', 'btn-primary', 'm-2');
 
-        // Append button to the container
-        buttonContainer.appendChild(button);
+            // Add click event listener to display table data
+            button.addEventListener('click', (event) => {
+                event.preventDefault();
+                document.getElementById('total').value = (combinedResult.totalBudget > buget[0].buget_limit) ? `  greater than expacted buget_limite [${buget[0].buget_limit}]` + " total buget :" + combinedResult.totalBudget : " under buget_limit" + " total buget :" + combinedResult.totalBudget
+                document.getElementById("code").value = "total";
+                document.getElementById("buttonContainer").style.visibility = "hidden";
+                (combinedResult) ? displayTableData(combinedResult) : displayExampleTable();
+            });
+
+            // Append button to the container
+            buttonContainer.appendChild(button);
+        }
     }
 
 });

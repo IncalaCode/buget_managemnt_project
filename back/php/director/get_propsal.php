@@ -18,14 +18,6 @@ $result = $connect->query($sql);
 // Fetch the result as an associative array
 $data = $result->fetch_all(MYSQLI_ASSOC);
 
-if($statusCondition != ""){
-    addtotal();
-}
-
-function addtotal(){
-    
-}
-
 // Convert the data to JSON format
 $jsonData = json_encode($data);
 // Escape the JSON string for JavaScript

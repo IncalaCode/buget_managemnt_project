@@ -27,7 +27,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                     $message = array("status" => "success", "message" => "Login successful.");
                     //redirect it to the given role
                     $_SESSION['user'] = $user;
-                      header("location: ".$user['role'] . ".php");
+                    
+                    store_buget_limit($connect);
+                    
+                    header("location: ".$user['role'] . ".php");
                     //header("location: ../../g_manager.php");
                 } else {
                     $message = array("status" => "error", "message" => "Invalid username or password.");
@@ -45,4 +48,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } catch (Exception $e) {
         $message = array("status" => "error", "message" => "Error: " . $e->getMessage());
     }
+}
+
+function store_buget_limit($connect){
+    $resualt = $connect->query("SELECT * FROM records where status = 1");
+    $resualt = $resualt->fetch_assoc();
+    $_SESSION['buget'] = $resualt;
 }

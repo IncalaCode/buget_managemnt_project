@@ -24,7 +24,10 @@ require_once('./back/php/director/add_propsal.php')
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
         <link rel="stylesheet" href="./css/table.css">
-        <?php include('./back/php/director/get_propsal.php')?>
+        <?php include('./back/php/director/get_propsal.php');
+        include('./back/php/get_buget.php')
+        ?>
+
 
     </head>
 
@@ -88,7 +91,33 @@ require_once('./back/php/director/add_propsal.php')
                 <main class="col-md-9 col-lg-10 px-md-4 main-content">
                     <div class="content" id="viewStatus">
                         <h2>View Status</h2>
-                        <p>This is the View Status content.</p>
+                        <div id="table-container"></div>
+
+                        <div class="d-flex justify-content-between align-items-start">
+                            <!-- Budget Request Form -->
+                            <form action="" method="post" class="card p-4 shadow-sm" style="width: 300px;">
+                                <h5 class="card-title">Budget Request</h5>
+                                <div class="mb-3">
+                                    <label for="code" class="form-label">Code:</label>
+                                    <input type="number" name="code" class="form-control" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="amount" class="form-label">Amount:</label>
+                                    <input type="number" name="amount" class="form-control" required>
+                                </div>
+                                <button type="submit" name="request" id="request" class="btn btn-primary w-100">Submit
+                                    Request</button>
+                            </form>
+
+                            <!-- Request List -->
+                            <div class="ml-4" style="flex-grow: 1;">
+
+                                <?php include_once("./back/php/director/request.php"); ?>
+
+                            </div>
+                        </div>
+
+
                     </div>
                     <div class="content" id="uploadProposal" style="display: none;">
 
@@ -150,6 +179,7 @@ require_once('./back/php/director/add_propsal.php')
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
         <script src="./front/js/table.js"></script>
+        <script src="./front/js/jst.js"></script>
 
         <!-- Mammoth.js Library for DOCX -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>

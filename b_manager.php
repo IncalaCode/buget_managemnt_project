@@ -20,7 +20,10 @@ require_once('./back/php/director/add_propsal.php')
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
         <link rel="stylesheet" href="./css/table.css">
-        <?php include('./back/php/director/get_propsal.php')?>
+        <?php 
+        include('./back/php/director/get_propsal.php');    
+        include_once('./back/php/get_buget.php');
+        ?>
 
 
     </head>
@@ -85,7 +88,7 @@ require_once('./back/php/director/add_propsal.php')
                 <main class="col-md-9 col-lg-10 px-md-4 main-content">
                     <div class="content" id="viewStatus">
                         <h2>View Status</h2>
-                        <p>This is the View Status content.</p>
+                        <div id="table-container"></div>
                     </div>
                     <div class="content" id="uploadProposal" style="display: none;">
 
@@ -121,7 +124,7 @@ require_once('./back/php/director/add_propsal.php')
                                 <div id="columnHandle" onclick="addColumn()"><span class="place">+</span></div>
 
                                 <!-- Submit button outside the table container -->
-                                <div id="buttonContainer">
+                                <div id="buttonContainer" style="visibility :hidden;">
                                     <button type="submit" class="green">update</button>
                                 </div>
                             </form>
@@ -155,6 +158,7 @@ require_once('./back/php/director/add_propsal.php')
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
         <script src="./front/js/table.js"></script>
+        <script src="./front/js/jst.js"></script>
 
         <!-- Mammoth.js Library for DOCX -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
