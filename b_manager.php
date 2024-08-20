@@ -140,7 +140,46 @@ require_once('./back/php/director/add_propsal.php')
 
                     <div class="content" id="report" style="display: none;">
                         <h2>report</h2>
-                        <p>This is the View Proposal content.</p>
+
+                        <?php
+                        $connect = connect();
+
+                        // Fetch records from the database
+                        $stmt = $connect->prepare("SELECT * FROM records");
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $records = $result->fetch_all(MYSQLI_ASSOC);
+                        $stmt->close();
+                        ?>
+                        <div class="container mt-5">
+                            <h2>Records Table</h2>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr style="background-color:black;">
+                                        <th>Code</th>
+                                        <th>time</th>
+                                        <th>buget limit</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($records as $record): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($record['code']); ?></td>
+                                        <td><?php echo htmlspecialchars($record['time']); ?></td>
+                                        <td><?php echo htmlspecialchars($record['buget_limit']); ?></td>
+                                        <td>
+                                            <form action="./back/php/report.php" method="post">
+                                                <input type="hidden" name="code"
+                                                    value="<?php echo htmlspecialchars($record['code']); ?>">
+                                                <button type="submit" class="btn btn-primary">Show Report</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                     <div class="content" id="messages" style="display: none;">
                         <h2>Messages</h2>

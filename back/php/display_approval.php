@@ -23,18 +23,18 @@ function displayReview() {
     if (!empty($pending)) {
         echo '<ul class="list-group list-group-flush">';
         foreach ($pending as $review) {
-            echo '<li class="list-group-item">Code: '.$review['code'].' | Amount: '.$review['amount'].' birr | Review Time: '.$review['review_time']. '
+            // Format the review time (optional, based on how you want to display it)
+            $formattedTime = date('Y-m-d H:i:s', strtotime($review['review_time']));
+            echo '<li class="list-group-item">Code: '.$review['code'].' | Amount: '.$review['amount'].' birr | Review Time: '.$formattedTime.'
              
-                <form action="">
-            <div class="top-right-buttons">
-            <input type="hidden" name="review_id" value="'.$review['code'].'">
-                    <button class="p_button" type="submit" name="approve" style="background:green;">approve
-                        </button>
-                    <button class="p_button" type="submit" name="disapprove"  style="background:red;">disapprove</button>
-                                                
-                      </div>
-                 </form>
-
+                <form action="" method="post">
+                    <div class="top-right-buttons">
+                        <input type="hidden" name="review_id" value="'.$review['code'].'">
+                        <input type="hidden" name="date" value="'.$formattedTime.'">
+                        <button class="p_button" type="submit" name="approve" style="background:green;">Approve</button>
+                        <button class="p_button" type="submit" name="disapprove" style="background:red;">Disapprove</button>
+                    </div>
+                </form>
             </li>';
         }
         echo '</ul>';

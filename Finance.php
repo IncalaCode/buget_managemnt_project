@@ -19,7 +19,10 @@ require_once('./back/php/aprrove_system.php');
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
-
+        <link rel="stylesheet" href="./css/table.css">
+        <?php 
+        include_once('./back/php/get_buget.php');
+        ?>
 
     </head>
 
@@ -91,6 +94,7 @@ require_once('./back/php/aprrove_system.php');
 
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
+        <script src="./front/js/jst.js"></script>
 
         <!-- Mammoth.js Library for DOCX -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>

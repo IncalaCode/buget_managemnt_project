@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 19, 2024 at 11:10 AM
+-- Generation Time: Aug 20, 2024 at 09:46 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -44,7 +44,7 @@ CREATE TABLE `employ` (
 
 INSERT INTO `employ` (`id`, `code`, `role`, `fname`, `lname`, `phonenum`, `password`, `username`) VALUES
 (2, 1, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$xMKokubrvCvmEK5K4zqrlesobfNkDWi8Ee2O17ZsEJ4G36epfM3rK', 'qqqqqqqqqqqqqq1'),
-(3, 2, 'finance', 'kaleb', 'adem', 2147483647, '$2y$10$OSfTUeAxJcQv/WcwuCE4weqs5cdUR2Ugnk0uq4w6pC3spqy2i9oYG', 'qqqqqqqqqqqqqq'),
+(3, 2, 'finance', 'kaleb', 'adem', 2147483647, '$2y$10$OSfTUeAxJcQv/WcwuCE4weqs5cdUR2Ugnk0uq4w6pC3spqy2i9oYG', 'fin'),
 (4, 3, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$mHnh8L6BzMk9HQZlOAK/gOQSjQjhXBG9.jOXiMkOhzHGBlLEXpKHK', 'buget'),
 (5, 4, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$tiEyQRcwud7J7SC4MRMeJeXb1tN7y6/fEm0sOVY.oFOsZJy.hODn.', 'qqqqqqqqqqqqqq'),
 (6, 5, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$JIrbdwZJPG.FetaxidFnGOUsC5sgk7t8B0MQNTxwXRzPv80YLay3a', 'wwwwwwwwwwwwwwwwww'),
@@ -62,8 +62,30 @@ CREATE TABLE `finance_review` (
   `id_code` varchar(255) NOT NULL,
   `code` varchar(255) NOT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `review_status` enum('Pending','Approved','Rejected') NOT NULL
+  `review_status` enum('Pending','Approved','Rejected') NOT NULL,
+  `review_time` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `finance_review`
+--
+
+INSERT INTO `finance_review` (`id_code`, `code`, `amount`, `review_status`, `review_time`) VALUES
+('7', '34', 2.00, 'Approved', '2024-08-20 13:17:37'),
+('7', '34', 2.00, 'Approved', '2024-08-20 13:17:37'),
+('7', '2', 12.00, 'Approved', '2024-08-20 14:45:49'),
+('7', '2', 12.00, 'Approved', '2024-08-20 14:46:30'),
+('7', '2', 12.00, 'Approved', '2024-08-20 14:46:52'),
+('7', '2', 12.00, 'Approved', '2024-08-20 14:47:32'),
+('7', '2', 12.00, 'Approved', '2024-08-20 20:04:29'),
+('7', '2', 12.00, 'Approved', '2024-08-20 20:04:49'),
+('7', '2', 12.00, 'Approved', '2024-08-20 20:06:41'),
+('7', '2', 22.00, 'Approved', '2024-08-20 20:10:04'),
+('7', '2', 22.00, 'Approved', '2024-08-20 20:16:32'),
+('7', '34', 2.00, 'Approved', '2024-08-20 20:18:12'),
+('7', '2', 72.00, 'Approved', '2024-08-20 20:34:12'),
+('7', '2', 80.00, 'Approved', '2024-08-20 20:54:51'),
+('7', '2', 8.00, 'Approved', '2024-08-20 22:31:28');
 
 -- --------------------------------------------------------
 
@@ -112,8 +134,10 @@ CREATE TABLE `propsal` (
 --
 
 INSERT INTO `propsal` (`id`, `code`, `data`, `time`, `status`) VALUES
-(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"action\"],\"body\":[[\"1\",\"123\",\"100\"],[\"2\",\"456\",\"50\"],[\"3\",\"789\",\"80\"],[\"3\",\"44\",\"678\"]],\"footer\":null}', '2024-08-19 09:46:34', 1),
-(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"action\"],\"body\":[[\"1\",\"123\",\"100\"],[\"2\",\"456\",\"50\"],[\"3\",\"789\",\"80\"],[\"3\",\"44\",\"678\"]],\"footer\":null}', '2024-08-19 09:46:34', 1);
+(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\",\"action\"],\"body\":[[\"12\",\"2\",12,\"50\",\"123\"],[\"12\",\"34\",1,\"789\",\"80\"]],\"footer\":null}', '2024-08-19 18:13:35', 1),
+(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\",\"action\"],\"body\":[[\"12\",\"2\",12,\"50\",\"123\"],[\"12\",\"34\",1,\"789\",\"80\"]],\"footer\":null}', '2024-08-19 21:26:24', 1),
+(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\",\"action\"],\"body\":[[\"12\",\"2\",12,\"50\",\"123\"],[\"12\",\"34\",1,\"789\",\"80\"]],\"footer\":null}', '2024-08-19 21:32:04', 1),
+(3, 2, '[]', '2024-08-20 21:39:35', 1);
 
 -- --------------------------------------------------------
 
@@ -135,7 +159,7 @@ CREATE TABLE `records` (
 --
 
 INSERT INTO `records` (`id`, `code`, `status`, `time`, `buget_limit`, `data`) VALUES
-(10, 8, 1, '2025-11-19', 2147483647, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\"],\"body\":[[\"1: 1\",\"44: 44\",\"1356: 1356\"],[\"2: 2\",\"123: 123\",\"200: 200\"],[\"3: 3\",\"456: 456\",\"100: 100\"],[\"4: 4\",\"789: 789\",\"160: 160\"]],\"footer\":null}');
+(10, 8, 1, '2025-11-19', 2147483647, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\"],\"body\":[[\"1: 1\",\"2: 2\",\"52: 60\",\"50: 50\",\"123: 123\"],[\"2: 2\",\"34: 34\",\"3: 3\",\"789: 789\",\"80: 80\"]],\"footer\":null}');
 
 -- --------------------------------------------------------
 

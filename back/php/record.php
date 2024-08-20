@@ -78,49 +78,45 @@ function update_ibx($data) {
 
     return $message;
 }
-
 function req_ibx($data, $budget_request) {
-    $transformedBody = [];
     $budgetUpdated = false;
 
-    foreach ($data['body'] as $row) {
-        $pairedRow = [];
-        
+    foreach ($data['body'] as &$row) {
         $itemCode = $row[1];
-        $currentAmount = $row[2];
-        $setAmount = $currentAmount;
+        
+        // Find the index of "buget" in the row
+        $budgetIndex = array_search("buget", $data['head']);
+        $currentAmount = floatval($row[$budgetIndex]); // Access the budget using the found index
 
+        // Check if this row's item code matches the budget request's code
         if ($itemCode == $budget_request['code']) {
-            $currentAmount -= $budget_request['amount'];
+            // Subtract the requested amount from the current budget
+            $row[$budgetIndex] = $currentAmount - floatval($budget_request['amount']);
             $budgetUpdated = true;
+            break; // Exit the loop once the correct row is found and updated
         }
-
-        $pairedRow[] = "{$row[0]}: {$row[0]}"; // r.no
-        $pairedRow[] = "{$itemCode}: {$itemCode}"; // item code
-        $pairedRow[] = "{$currentAmount}: {$setAmount}"; // buget in the "current amount: set amount" format
-
-        $transformedBody[] = $pairedRow;
     }
-
-    $data['body'] = $transformedBody;
 
     // Generate the appropriate message
     if ($budgetUpdated) {
         $message = array(
             "status" => "success", 
             "message" => "Budget has been updated.", 
-            'navigateToSlide' => "viewStatus"
+            'navigateToSlide' => "viewStatus",
+            "updatedData" => $data // Return the updated data structure
         );
     } else {
         $message = array(
             "status" => "error", 
             "message" => "Failed to update the budget. Item code not found.", 
-            'navigateToSlide' => "viewStatus"
+            'navigateToSlide' => "viewStatus",
+            "updatedData" => $data // Return the original data structure if no update was made
         );
     }
 
     return $message;
 }
+
 
 function submitForFinanceReview($budget_request) {
     require_once('./back/php/connect.php');

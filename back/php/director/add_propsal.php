@@ -51,12 +51,16 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     try {
         $connect = connect();
 
-        if ($_SERVER['REQUEST_METHOD'] == "POST") {
+        if(isset($_POST['approve'])){
+            return;
+        }
+
             if(isset($_POST['request'])){
                 $message = submitForFinanceReview($_POST);
+                return;
             }
-            return;
-        }        
+            
+            
 
 if(isset($_POST['submit'])){
     if($_POST['submit'] == "dowlode_dox" or $_POST['submit'] == "insert_ibx"){
@@ -136,6 +140,10 @@ function make_ibx() {
         generateAndDownloadDocxTable($data,$_POST['total']);
     }
     if($_POST['code'] == "total"){
+
+    if(date('Y-m-d', strtotime( $_SESSION['buget']['time'])) < date("Y-m-d")){
+
+    
         $intal  = intval(mb_split(":",$_POST['total'])[1]);
         $buget = intval($_SESSION['buget']['buget_limit']);
         if($buget >  $intal){
@@ -145,7 +153,11 @@ function make_ibx() {
         }else{
             $message = array("status" => "error", "message" => "limited buget", 'navigateToSlide' => "uploadProposal");
         }
+    }else{
+        $message = array("status" => "error", "message" => "this year buget alrady set up to " . $_SESSION['buget']['time'], 'navigateToSlide' => "uploadProposal");
     }
+
+}
     
     return $message;
 }
