@@ -14,16 +14,9 @@ if (isset($_POST['approve'])) {
 
 if (isset($_POST['disapprove'])) {
     $reviewId = $_POST['review_id'];  // Assuming review ID is sent in the POST request
-
+    $reviewTime = date('Y-m-d H:i:s', strtotime($_POST['date'])); 
     // Disapprove the review
-    $response = disapproveReview($reviewId);
-
-    // Redirect or output message based on the response
-    if ($response['status'] === 'success') {
-        echo "<div class='alert alert-success'>{$response['message']}</div>";
-    } else {
-        echo "<div class='alert alert-danger'>{$response['message']}</div>";
-    }
+    $message = disapproveReview($reviewId,$reviewTime);
 }
 
 // Function to handle review approval
@@ -95,24 +88,31 @@ function approveReview($reviewId, $reviewTime) {
 }
 
 // Function to handle review disapproval
-function disapproveReview($reviewId) {
+function disapproveReview($reviewId, $reviewTime) {
     $connect = connect();
     $connect->begin_transaction();
 
     try {
         // Update the finance review status to "Disapproved"
-        $stmt = $connect->prepare("UPDATE finance_review SET review_status = 'Disapproved', review_time = NOW() WHERE id = ?");
-        $stmt->bind_param("i", $reviewId);
+        $stmt = $connect->prepare("UPDATE finance_review SET review_status = 'Rejected' WHERE review_time = ? and code = ?");
 
-        if ($stmt->execute()) {
-            $connect->commit();
-            return array("status" => "success", "message" => "Review disapproved successfully.");
-        } else {
-            throw new Exception("Failed to update finance review status.");
-        }
+        $stmt->bind_param("ss",  $reviewId,$reviewTime);
+
+        // Commit the transaction if everything went well
+        $connect->commit();
+
+        // Return success message
+        return array("status" => "success", "message" => "Review disapproved successfully.");
     } catch (Exception $e) {
+        // Rollback the transaction if something failed
         $connect->rollback();
         return array("status" => "error", "message" => $e->getMessage());
+    } finally {
+        // Close the prepared statement and connection
+        if ($stmt) {
+            $stmt->close();
+        }
+        $connect->close();
     }
 }
 
@@ -131,24 +131,33 @@ function updateRecordsTable($itemCode, $amount) {
         // Decode the JSON data
         $records = json_decode($recordsJson, true);
 
-        // Update the budget in the records data
-        foreach ($records['body'] as &$row) {
-            $rowData = explode(": ", $row[1]);
-            if ($rowData[0] == $itemCode) {
-                $budgetData = explode(": ", $row[2]);
-                $budgetData[0] -= $amount; // Update the budget
-                $row[2] = implode(": ", $budgetData);
-                break;
+        // Find the index of "Item-code" and "buget" in the head array
+        $itemCodeIndex = array_search("Item-code", $records['head']);
+        $budgetIndex = array_search("buget", $records['head']);
+
+        if ($itemCodeIndex !== false && $budgetIndex !== false) {
+            // Update the budget in the records data
+            foreach ($records['body'] as &$row) {
+                $rowData = explode(": ", $row[$itemCodeIndex]);
+                if ($rowData[0] == $itemCode) {
+                    $budgetData = explode(": ", $row[$budgetIndex]);
+                    $budgetData[0] -= $amount; // Update the budget
+                    $row[$budgetIndex] = implode(": ", $budgetData);
+                    break;
+                }
             }
+
+            // Encode the updated records data
+            $updatedRecordsJson = json_encode($records);
+
+            // Update the records table with the new data
+            $stmt = $connect->prepare("UPDATE records SET data = ? WHERE status = 1");
+            $stmt->bind_param("s", $updatedRecordsJson);
+            $stmt->execute();
+        } else {
+            // Handle the case where "Item-code" or "buget" are not found
+            return array("status" => "error", "message" => "Item-code or buget column not found."); 
         }
-
-        // Encode the updated records data
-        $updatedRecordsJson = json_encode($records);
-
-        // Update the records table with the new data
-        $stmt = $connect->prepare("UPDATE records SET data = ? WHERE status = 1");
-        $stmt->bind_param("s", $updatedRecordsJson);
-        $stmt->execute();
     }
 }
 

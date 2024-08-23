@@ -268,3 +268,8 @@ body {
 .p_button:hover {
     background-color: #0056b3;
 }
+
+.geer {
+    background-color: #ffffff;
+    border-radius: 50%;
+}

@@ -82,16 +82,18 @@ function req_ibx($data, $budget_request) {
     $budgetUpdated = false;
 
     foreach ($data['body'] as &$row) {
-        $itemCode = $row[1];
+        $codeIndex = array_search("Item-code", $data['head']);
+        $budgetIndex = array_search("buget", $data['head']);
+        $itemCode = $row[$codeIndex];
         
         // Find the index of "buget" in the row
-        $budgetIndex = array_search("buget", $data['head']);
+        
         $currentAmount = floatval($row[$budgetIndex]); // Access the budget using the found index
 
         // Check if this row's item code matches the budget request's code
         if ($itemCode == $budget_request['code']) {
             // Subtract the requested amount from the current budget
-            $row[$budgetIndex] = $currentAmount - floatval($budget_request['amount']);
+            $row[$budgetIndex] = strval($currentAmount - floatval($budget_request['amount']));
             $budgetUpdated = true;
             break; // Exit the loop once the correct row is found and updated
         }
@@ -137,8 +139,9 @@ function submitForFinanceReview($budget_request) {
         // Check if the budget is sufficient
         $sufficientBudget = false;
         if (isset($data['body'])) {
+            $index = array_search("Item-code", $data["head"]);
             foreach ($data['body'] as &$row) {
-                if ($row[1] == $budget_request['code']) { // Assuming $row[1] is the Item-code
+                if ($row[$index] == $budget_request['code']) { // Assuming $row[1] is the Item-code
                     $currentBudget = floatval($row[2]); // Assuming $row[2] is the budget value
                     if ($currentBudget >= $budget_request['amount']) {
                         $sufficientBudget = true;

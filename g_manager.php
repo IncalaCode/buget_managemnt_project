@@ -1,7 +1,9 @@
 <?php
 $url = "g_manager";
 require_once ('./back/php/check_login_status.php'); 
+include_once('./back/php/g.manager/update_users.php');
 include_once('./back/php/g.manager/admin_create_account.php');
+
 
 ?>
 
@@ -15,16 +17,38 @@ include_once('./back/php/g.manager/admin_create_account.php');
         <title>Dashboard</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Font Awesome CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
         <!-- message shower with  notyf-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
 
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
+        <link rel="stylesheet" href="./css/table.css">
         <?php
         include_once('./back/php/get_buget.php');
+
+        function set_table() {
+            if (isset($_SESSION['buget']) && !empty($_SESSION['buget'])) {
+                $buget = $_SESSION['buget'];
+                    $budgetEndDate = new DateTime($buget['time']);
+                    $now = new DateTime();
+                    
+                    if ($budgetEndDate >= $now) {
+                        return false; // Hide the budget container
+                    }
+                    echo "<script>NotyfService.showMessage('error', 'Budget Duration passed');</script>";
+                
+            }
+        
+            return true; // Show the budget container
+        }
+        
+        $showBudgetForm = set_table();
         ?>
-        <script src="./front/js/jst.js"></script>
 
 
     </head>
@@ -38,7 +62,7 @@ include_once('./back/php/g.manager/admin_create_account.php');
                         <div class="sidebar-header d-flex align-items-center">
                             <img src="https://via.placeholder.com/50" alt="Company Logo" cl class="rounded-circle me-2">
                             <span class="fs-3 text">SSTA</span>
-                            <h6 class=" d-flex text"><?php echo "c:".  $_SESSION['user']['code']?></h6>
+                            <h6 class=" d-flex text"><?php echo "c:0".  $_SESSION['user']['code']?></h6>
                         </div>
 
                         <div class="sidebar-body">
@@ -77,11 +101,17 @@ include_once('./back/php/g.manager/admin_create_account.php');
                                 </li>
                             </ul>
                         </div>
-                        <div class="sidebar-footer d-flex align-items-center">
-                            <img src="https://via.placeholder.com/40" alt="User Avatar" class="rounded-circle me-2">
-                            <span class="text">John Doe</span>
+                        <div class="sidebar-footer d-flex align-items-center gap-lg-5">
+
+                            <span
+                                class="text"><?php echo $_SESSION['user']['fname'] ." " . $_SESSION['user']['lname']?></span>
+
+                            <i data-toggle="modal" data-target="#loginModal" style="cursor: pointer;"
+                                class="fa-solid fa-gear cursor-pointer"></i>
+
                         </div>
                     </div>
+
                     <div class="toggle-button" id="toggleButton">
                         <i class="bi bi-chevron-left"></i>
                     </div>
@@ -96,9 +126,10 @@ include_once('./back/php/g.manager/admin_create_account.php');
                 <main class="col-md-9 col-lg-10 px-md-4 main-content">
                     <div class="content" id="viewStatus">
                         <h2>View Status</h2>
+                        <div id="table-container"></div>
 
                         <div id="buget_contanier" class="card shadow-lg p-4 justify-content-center align-items-center"
-                            style="width: 100%; max-width: 400px;">
+                            style="width: 100%; max-width: 400px; <?php echo $showBudgetForm ? '' : 'display: none;' ?>">
                             <div class="card-body">
                                 <h5 class="card-title text-center mb-4">Set Your Budget</h5>
                                 <form action="" method="POST">
@@ -127,16 +158,48 @@ include_once('./back/php/g.manager/admin_create_account.php');
                     </div>
                     <div class="content" id="report" style="display: none;">
                         <h2> view Report</h2>
-                        <div class="container-fluid d-flex">
-                            <div class="row flex-fill">
-                                <div class="col-md-4 left-side p-3" id="buttonContainer">
-                                    <!-- Buttons will be generated here by JavaScript -->
-                                </div>
-                                <div class="col-md-8 right-side p-3">
-                                    <div id="viewer" class="viewer"></div>
-                                </div>
-                            </div>
+
+                        <?php
+                        $connect = connect();
+
+                        // Fetch records from the database
+                        $stmt = $connect->prepare("SELECT * FROM records");
+                        $stmt->execute();
+                        $result = $stmt->get_result();
+                        $records = $result->fetch_all(MYSQLI_ASSOC);
+                        $stmt->close();
+                        ?>
+                        <div class="container mt-5">
+                            <h2>Records Table</h2>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr style="background-color:black;">
+                                        <th>Code</th>
+                                        <th>time</th>
+                                        <th>buget limit</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($records as $record): ?>
+                                    <tr>
+                                        <td><?php echo htmlspecialchars($record['code']); ?></td>
+                                        <td><?php echo htmlspecialchars($record['time']); ?></td>
+                                        <td><?php echo htmlspecialchars($record['buget_limit']); ?></td>
+                                        <td>
+                                            <form action="./back/php/report.php" method="post">
+                                                <input type="hidden" name="code"
+                                                    value="<?php echo htmlspecialchars($record['code']); ?>">
+                                                <button type="submit" class="btn btn-primary">Show Report</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    <?php endforeach; ?>
+                                </tbody>
+                            </table>
                         </div>
+
+
                     </div>
                     <div class="content" id="User_list" style="display: none;">
                         <h2>user list</h2>
@@ -230,13 +293,45 @@ include_once('./back/php/g.manager/admin_create_account.php');
             </div>
         </div>
 
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">update</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="loginForm" action="" method="post">
+                            <div class="form-group">
+                                <rname for="username">Username:</label>
+                                    <input type="text" id="username" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" name="update" class="btn btn-primary btn-block">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
         <!-- sicript with notyf -->
         <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
         <!-- user add scripts -->
         <script src="./front/js/script1.js"></script>
+        <script src="./front/js/jst.js"></script>
 
         <!-- Mammoth.js Library for DOCX -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
@@ -253,22 +348,6 @@ include_once('./back/php/g.manager/admin_create_account.php');
         <?php endif;
         $message = null;
         ?>
-
-        function set_table() {
-            if (buget[0].status === "success") {
-                const budgetEndDate = new Date(buget[0].time);
-                const now = new Date();
-
-                if (budgetEndDate >= now) {
-                    return document.getElementById('buget_contanier').style.display = "none";
-                }
-                NotyfService.showMessage("error", 'Budget Duration passed');
-            }
-            document.getElementById('buget_contanier').style.display = "block";
-
-        }
-
-        set_table();
         </script>
 
     </body>

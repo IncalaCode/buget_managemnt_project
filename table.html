@@ -1,62 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="am">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Create Word Document</title>
-        <!-- Include docx.js library via CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.2.2/docx.js"></script>
-        <!-- Include FileSaver.js library via CDN -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <title>Amharic Speech Recognition & Repetition</title>
     </head>
 
     <body>
+        <h1>Amharic Speech Recognition & Repetition</h1>
 
-        <button id="generate">Generate Word Document</button>
+        <p id="status" style="display:none;">Listening...</p>
+        <button id="start">Start Recognition</button>
+        <button id="stop">Stop Recognition</button>
+
+        <div class="p-3" style="border: 1px solid gray; height: 300px; border-radius: 8px;">
+            <span id="final" class="text-light"></span>
+            <span id="interim" class="text-secondary"></span>
+        </div>
 
         <script>
-            document.getElementById("generate").addEventListener("click", function () {
-                generateWordDocument();
-            });
+            const synth = window.speechSynthesis;
 
-            function generateWordDocument() {
-                // Create a new instance of Document from the docx module
-                const doc = new docx.Document();
+            function speak(text) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'am-ET'; // Set language to Amharic
 
-                // Add content to the document
-                doc.addSection({
-                    children: [
-                        new docx.Paragraph({
-                            text: "Title",
-                            heading: docx.HeadingLevel.TITLE
-                        }),
-                        new docx.Paragraph({
-                            text: "Subtitle",
-                            heading: docx.HeadingLevel.HEADING_1
-                        }),
-                        new docx.Paragraph({
-                            text: "Heading 1",
-                            heading: docx.HeadingLevel.HEADING_2
-                        }),
-                        new docx.Paragraph({
-                            text: "Heading 2",
-                            heading: docx.HeadingLevel.HEADING_2
-                        }),
-                        new docx.Paragraph(
-                            "Aliquam gravida quam sapien, quis dapibus eros malesuada vel. Praesent tempor aliquam iaculis. Nam ut neque ex. Curabitur pretium laoreet nunc, ut ornare augue aliquet sed. Pellentesque laoreet sem risus. Cras sodales libero convallis, convallis ex sed, ultrices neque. Sed quis ullamcorper mi. Ut a leo consectetur, scelerisque nibh sit amet, egestas mauris. Donec augue sapien, vestibulum in urna et, cursus feugiat enim. Ut sit amet placerat quam, id tincidunt nulla. Cras et lorem nibh. Suspendisse posuere orci nec ligula mattis vestibulum. Suspendisse in vestibulum urna, non imperdiet enim. Vestibulum vel dolor eget neque iaculis ultrices."
-                        )
-                    ]
-                });
+                utterance.pitch = 1.0; // Neutral tone
+                utterance.rate = 1.0;
 
-                // Use Packer to convert the document to a Blob
-                docx.Packer.toBlob(doc).then(blob => {
-                    // Save the file using saveAs from the file-saver package
-                    saveAs(blob, "New Document.docx");
-                });
+                synth.speak(utterance);
+            }
+
+            // Speech Recognition Code
+            if ("webkitSpeechRecognition" in window) {
+                let speechRecognition = new webkitSpeechRecognition();
+                let final_transcript = "";
+                let recognitionTimeout;
+
+                speechRecognition.continuous = false; // Listen for a single phrase
+                speechRecognition.interimResults = true;
+                speechRecognition.lang = 'am-ET'; // Set language to Amharic
+
+                speechRecognition.onstart = () => {
+                    document.querySelector("#status").style.display = "block";
+
+                    // Stop recognition after 10 seconds
+                    recognitionTimeout = setTimeout(() => {
+                        speechRecognition.stop();
+                    }, 10000);
+                };
+
+                speechRecognition.onerror = () => {
+                    document.querySelector("#status").style.display = "none";
+                    clearTimeout(recognitionTimeout);
+                };
+
+                speechRecognition.onend = () => {
+                    document.querySelector("#status").style.display = "none";
+                    clearTimeout(recognitionTimeout);
+
+                    // Restart recognition after speaking the text
+                    speechRecognition.start();
+                };
+
+                speechRecognition.onresult = (event) => {
+                    let interim_transcript = "";
+
+                    for (let i = event.resultIndex; i < event.results.length; ++i) {
+                        if (event.results[i].isFinal) {
+                            final_transcript = event.results[i][0].transcript;
+                        } else {
+                            interim_transcript += event.results[i][0].transcript;
+                        }
+                    }
+
+                    document.querySelector("#final").innerHTML = final_transcript;
+                    document.querySelector("#interim").innerHTML = interim_transcript;
+
+                    // Speak the recognized text
+                    if (final_transcript) {
+                        speak(final_transcript);
+                    }
+                };
+
+                document.querySelector("#start").onclick = () => {
+                    speechRecognition.start();
+                };
+
+                document.querySelector("#stop").onclick = () => {
+                    speechRecognition.stop();
+                };
+            } else {
+                console.log("Speech Recognition Not Available");
             }
         </script>
-
     </body>
 
 </html>

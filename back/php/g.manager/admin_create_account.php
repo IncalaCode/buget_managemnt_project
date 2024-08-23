@@ -16,8 +16,12 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if(isset($_POST['set_buget'])){
      $message = setbuget();
      $buget = get_buget();
+     store_buget_now();
         return;
     }
+    if(isset($_POST['update'])){
+           return;
+       }
 
     $role = filter_input_data($_POST['role']);
     $first_name = filter_input_data($_POST['first_name']);
@@ -60,5 +64,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
 }
-
+function store_buget_now(){
+    $connect = connect();
+    $resualt = $connect->query("SELECT * FROM records where status = 1");
+    $resualt = $resualt->fetch_assoc();
+    $_SESSION['buget'] = $resualt;
+}
 ?>

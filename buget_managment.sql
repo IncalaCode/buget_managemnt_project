@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 20, 2024 at 09:46 PM
+-- Generation Time: Aug 23, 2024 at 08:39 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,14 +43,10 @@ CREATE TABLE `employ` (
 --
 
 INSERT INTO `employ` (`id`, `code`, `role`, `fname`, `lname`, `phonenum`, `password`, `username`) VALUES
-(2, 1, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$xMKokubrvCvmEK5K4zqrlesobfNkDWi8Ee2O17ZsEJ4G36epfM3rK', 'qqqqqqqqqqqqqq1'),
-(3, 2, 'finance', 'kaleb', 'adem', 2147483647, '$2y$10$OSfTUeAxJcQv/WcwuCE4weqs5cdUR2Ugnk0uq4w6pC3spqy2i9oYG', 'fin'),
-(4, 3, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$mHnh8L6BzMk9HQZlOAK/gOQSjQjhXBG9.jOXiMkOhzHGBlLEXpKHK', 'buget'),
-(5, 4, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$tiEyQRcwud7J7SC4MRMeJeXb1tN7y6/fEm0sOVY.oFOsZJy.hODn.', 'qqqqqqqqqqqqqq'),
-(6, 5, 'b_manager', 'kaleb', 'adem', 2147483647, '$2y$10$JIrbdwZJPG.FetaxidFnGOUsC5sgk7t8B0MQNTxwXRzPv80YLay3a', 'wwwwwwwwwwwwwwwwww'),
-(8, 6, 'director', 'kaleb', 'adem', 2147483647, '$2y$10$F9KSAc7Tvn51kp9V393KX.inXOS5pVIqkx17b7.Ta2Q2NDcA24kz2', 'dire'),
-(9, 7, 'director', 'kaleb', 'adem', 2147483647, '$2y$10$pZSbFHPK9qnQL41fNMvajem1JD4WXHz97lP7zomKm9XCwabf9T5ha', 'ademkisho'),
-(10, 8, 'g_manager', 'kaleb', 'adem', 2147483647, '$2y$10$AflxkvVEbrT05GIbZcD3ced/aKMjyShNBtQGZIMBNzxCmOE0L7yvq', 'adem');
+(16, 1, 'g_manager', 'general', 'manager', 923456789, '$2y$10$kOkNgucVR5qMR7jaYlnqDO2edYsvqPHrkXb4KBzOyhTR7kpet5.UK', 'general'),
+(17, 2, 'b_manager', 'buget', 'manager', 923456789, '$2y$10$XJugOvYKz83ZwtJwP0KDZ.KTBOG8b4eS9UuBx4tcaCaNXll7biCiG', 'buget123'),
+(18, 4, 'director', 'director', 'manager', 923456789, '$2y$10$A7OgUO.hMn8nSMyP97ipj.m/cxNgjfvvYkJ920PRWQ.B2AsuyrLyi', 'dir'),
+(19, 3, 'finance', 'finance', 'manager', 923456789, '$2y$10$B8DcVvjSVtIsXaStmpxf5e8Pc1KLJw7X8iNRlkkE0YjpM3V/sl2Fq', 'fin');
 
 -- --------------------------------------------------------
 
@@ -71,21 +67,8 @@ CREATE TABLE `finance_review` (
 --
 
 INSERT INTO `finance_review` (`id_code`, `code`, `amount`, `review_status`, `review_time`) VALUES
-('7', '34', 2.00, 'Approved', '2024-08-20 13:17:37'),
-('7', '34', 2.00, 'Approved', '2024-08-20 13:17:37'),
-('7', '2', 12.00, 'Approved', '2024-08-20 14:45:49'),
-('7', '2', 12.00, 'Approved', '2024-08-20 14:46:30'),
-('7', '2', 12.00, 'Approved', '2024-08-20 14:46:52'),
-('7', '2', 12.00, 'Approved', '2024-08-20 14:47:32'),
-('7', '2', 12.00, 'Approved', '2024-08-20 20:04:29'),
-('7', '2', 12.00, 'Approved', '2024-08-20 20:04:49'),
-('7', '2', 12.00, 'Approved', '2024-08-20 20:06:41'),
-('7', '2', 22.00, 'Approved', '2024-08-20 20:10:04'),
-('7', '2', 22.00, 'Approved', '2024-08-20 20:16:32'),
-('7', '34', 2.00, 'Approved', '2024-08-20 20:18:12'),
-('7', '2', 72.00, 'Approved', '2024-08-20 20:34:12'),
-('7', '2', 80.00, 'Approved', '2024-08-20 20:54:51'),
-('7', '2', 8.00, 'Approved', '2024-08-20 22:31:28');
+('4', '6313', 1000.00, 'Approved', '2024-08-23 20:43:43'),
+('4', '6111', 1000.00, '', '2024-08-23 20:49:13');
 
 -- --------------------------------------------------------
 
@@ -100,20 +83,6 @@ CREATE TABLE `proposals` (
   `description` text DEFAULT NULL,
   `dir_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `proposals`
---
-
-INSERT INTO `proposals` (`id`, `employee_id`, `topic`, `description`, `dir_url`) VALUES
-(1, 9, '', '', 'phpB840.tmp.docx'),
-(2, 9, '', '', 'phpF856.tmp.docx'),
-(3, 9, '', '', 'php7406.tmp.docx'),
-(4, 9, '', '', 'php6A40.tmp.docx'),
-(5, 9, '', '', 'phpC049.tmp.docx'),
-(6, 9, '', '', 'php8254.tmp.docx'),
-(7, 9, '', '', 'phpE7C1.tmp.docx'),
-(9, 9, '', '', 'upload/propsal/AI.ASSIGNMENT.docx');
 
 -- --------------------------------------------------------
 
@@ -134,10 +103,7 @@ CREATE TABLE `propsal` (
 --
 
 INSERT INTO `propsal` (`id`, `code`, `data`, `time`, `status`) VALUES
-(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\",\"action\"],\"body\":[[\"12\",\"2\",12,\"50\",\"123\"],[\"12\",\"34\",1,\"789\",\"80\"]],\"footer\":null}', '2024-08-19 18:13:35', 1),
-(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\",\"action\"],\"body\":[[\"12\",\"2\",12,\"50\",\"123\"],[\"12\",\"34\",1,\"789\",\"80\"]],\"footer\":null}', '2024-08-19 21:26:24', 1),
-(9, 7, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\",\"action\"],\"body\":[[\"12\",\"2\",12,\"50\",\"123\"],[\"12\",\"34\",1,\"789\",\"80\"]],\"footer\":null}', '2024-08-19 21:32:04', 1),
-(3, 2, '[]', '2024-08-20 21:39:35', 1);
+(18, 4, '{\"head\":[\"Row-Number\",\"Item-name\",\"Item-code\",\"buget\",\"action\"],\"body\":[[\"1\",\"Item-name\",\"6111\",\"6912299\"],[\"2\",\"Item-name\",\"6212\",\"6912\"],[\"3\",\"Item-name\",\"6313\",\"9912\"]],\"footer\":null}', '2024-08-23 19:35:19', 1);
 
 -- --------------------------------------------------------
 
@@ -159,7 +125,7 @@ CREATE TABLE `records` (
 --
 
 INSERT INTO `records` (`id`, `code`, `status`, `time`, `buget_limit`, `data`) VALUES
-(10, 8, 1, '2025-11-19', 2147483647, '{\"head\":[\"Row-Number\",\"Item-code\",\"buget\",\"goal\",\"wow\"],\"body\":[[\"1: 1\",\"2: 2\",\"52: 60\",\"50: 50\",\"123: 123\"],[\"2: 2\",\"34: 34\",\"3: 3\",\"789: 789\",\"80: 80\"]],\"footer\":null}');
+(16, 1, 1, '2025-12-23', 1200000000, '{\"head\":[\"Row-Number\",\"Item-name\",\"Item-code\",\"buget\"],\"body\":[[\"1 : 1\",\"Item-name : Item-name\",\"6111 : 6111\",\"6912299 : 6912299\"],[\"2 : 2\",\"Item-name : Item-name\",\"6212 : 6212\",\"6912 : 6912\"],[\"3 : 3\",\"Item-name : Item-name\",\"6313 : 6313\",\"9912: 10912\"]],\"footer\":null}');
 
 -- --------------------------------------------------------
 
@@ -199,7 +165,7 @@ ALTER TABLE `proposals`
 -- AUTO_INCREMENT for table `employ`
 --
 ALTER TABLE `employ`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `proposals`
