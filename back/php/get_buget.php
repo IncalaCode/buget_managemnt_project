@@ -35,16 +35,17 @@ if ($_SESSION['user']['role'] == "g_manager" || $_SESSION['user']['role'] == "b_
             // Process the last record's data
             $data = json_decode($data[0]['data'], true);
              array_pop($data['head']);
-            $dataProcessed = ibx($data); // Decode JSON and process with ibx
 
             // Convert the processed data to JSON format
-            $jsonData = json_encode($dataProcessed);
+            $jsonData = json_encode($data);
             // Escape the JSON string for JavaScript
             $escapedJsonData = addslashes($jsonData);
         }
     }
 }
-
+if(empty($escapedJsonData)){
+    return;
+}
 // Inject the escaped JSON data into JavaScript
 echo "<script>
     window.buget = JSON.parse('$escapedJsonData');

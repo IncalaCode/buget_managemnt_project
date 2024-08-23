@@ -1,7 +1,6 @@
 let dragSrcEl = null;
 let table_set = false
 
-
 function aggregateBudgets(data) {
     const combinedResult = {
         head: [],
@@ -28,6 +27,7 @@ function aggregateBudgets(data) {
 
         body.forEach(row => {
             const itemCode = row[itemCodeIndex];
+            // Remove commas from the budget value and parse it as a float
             const budgetValue = parseFloat(row[budgetIndex]) || 0;
 
             if (budgetMap[itemCode]) {
@@ -46,7 +46,8 @@ function aggregateBudgets(data) {
     for (const itemCode in budgetMap) {
         const item = budgetMap[itemCode];
         item.row[0] = String(rowIndex); // Update Row-Number dynamically
-        item.row[item.budgetIndex] = String(item.budget); // Update budget
+        // Format the budget value with commas and update it
+        item.row[item.budgetIndex] = item.budget
         combinedResult.body.push(item.row);
         combinedResult.totalBudget += item.budget; // Accumulate total budget
         rowIndex++;
@@ -163,14 +164,8 @@ function addRow() {
     headerCells.forEach((headerCell, index) => {
         const newCell = newRow.insertCell(index);
 
-        if (index === 0) {
-            // Row number cell
-            const rowNumberInput = document.createElement('input');
-            rowNumberInput.type = 'text';
-            rowNumberInput.value = rowCount;
-            // rowNumberInput.disabled = true; // Make row number read-only
-            newCell.appendChild(rowNumberInput);
-        } else if (index === headerCells.length - 1) {
+
+        if (index === headerCells.length - 1) {
             // Action column cell
             const deleteButton = document.createElement('button');
             deleteButton.classList.add('button');
@@ -410,11 +405,11 @@ function displayExampleTable() {
     const tbody = table.querySelector('tbody');
 
     // Example headers and data
-    const exampleHeaders = ['Row-Number', 'Item-code', 'buget', "action"];
+    const exampleHeaders = ['Row-Number', 'Item-name', 'Item-code', 'buget', "action"];
     const exampleRows = [
-        ['1', '123', '100',],
-        ['2', '456', '50',],
-        ['3', '789', '80',]
+        ['1', "Item-name", '6111', '6912299',],
+        ['2', "Item-name", '6212', '6912',],
+        ['3', "Item-name", '6313', '10912',]
     ];
 
     // Populate headers
@@ -471,45 +466,76 @@ function displayExampleTable() {
 }
 
 
-
 // Initialize buttons and table on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
-
     createButtonsAndDisplayData();
+    var budgetLimit;
+
     if (!Array.isArray(window.data)) {
         displayExampleTable();
-    } else {
-        var sp = location.pathname.split("/")
-
-        if (sp.includes('b_manager.php')) {
-            const buttonContainer = document.getElementById('buttonContainerpropsal');
-            const combinedResult = aggregateBudgets(data[0]);
-            document.getElementById("code").value = "total"
-            document.getElementById('total').value = (combinedResult.totalBudget > buget[0].buget_limit) ? `  greater than expacted buget_limite [${buget[0].buget_limit}]` + " total buget :" + combinedResult.totalBudget : " under buget_limit" + " total buget :" + combinedResult.totalBudget
-            displayTableData(combinedResult);
-
-            const button = document.createElement('button');
-            button.textContent = `Total propsal`;
-            button.classList.add('btn', 'btn-primary', 'm-2');
-
-            // Add click event listener to display table data
-            button.addEventListener('click', (event) => {
-                event.preventDefault();
-                document.getElementById('total').value = (combinedResult.totalBudget > buget[0].buget_limit) ? `  greater than expacted buget_limite [${buget[0].buget_limit}]` + " total buget :" + combinedResult.totalBudget : " under buget_limit" + " total buget :" + combinedResult.totalBudget
-                document.getElementById("code").value = "total";
-                document.getElementById("buttonContainer").style.visibility = "hidden";
-                (combinedResult) ? displayTableData(combinedResult) : displayExampleTable();
-            });
-
-            // Append button to the container
-            buttonContainer.appendChild(button);
-        }
+        return;
     }
 
+    const sp = location.pathname.split("/");
+    if (typeof buget === 'undefined') {
+        budgetLimit = "ungiven"
+    } else {
+        budgetLimit = parseInt(buget[0]?.buget_limit)
+    }
+
+    if (sp.includes('b_manager.php')) {
+        const buttonContainer = document.getElementById('buttonContainerpropsal');
+        const combinedResult = aggregateBudgets(window.data[0]);
+        combinedResult.totalBudget = (combinedResult.totalBudget)
+
+        document.getElementById("code").value = "total";
+
+        const budgetStatus = (combinedResult.totalBudget > budgetLimit)
+            ? `greater than expected budget limit [${comma(budgetLimit)}] total budget: ${comma(combinedResult.totalBudget)}`
+            : `under budget limit total budget: ${comma(combinedResult.totalBudget)}`;
+
+        document.getElementById('total').value = (budgetLimit == "ungiven") ? ` budget limit unseted total budget: ${comma(combinedResult.totalBudget)}` : budgetStatus;
+
+        displayTableData(combinedResult);
+
+        const button = document.createElement('button');
+        button.textContent = 'Total Proposal';
+        button.classList.add('btn', 'btn-primary', 'm-2');
+
+        // Add click event listener to display table data
+        button.addEventListener('click', (event) => {
+            event.preventDefault();
+            document.getElementById('total').value = budgetStatus;
+            document.getElementById("code").value = "total";
+            document.getElementById("buttonContainer").style.visibility = "hidden";
+            combinedResult ? displayTableData(combinedResult) : displayExampleTable();
+        });
+
+        // Append button to the container
+        buttonContainer.appendChild(button);
+    }
 });
+
 
 var sp = location.pathname.split("/")
 
 if (sp.includes('director.php')) {
     displayExampleTable();
+}
+
+function isEmpty(value) {
+    if (value === null || value === undefined) {
+        return true;
+    }
+    if (typeof value === 'string' || Array.isArray(value)) {
+        return value.length === 0;
+    }
+    if (typeof value === 'object') {
+        return Object.keys(value).length === 0;
+    }
+    return false;
+}
+
+function comma(number) {
+    return number.toLocaleString('en-US');
 }

@@ -2,6 +2,7 @@
 // // some imports in here
 $url = "b_manager";
 require_once ('./back/php/check_login_status.php');
+include_once('./back/php/g.manager/update_users.php');
 require_once('./back/php/director/add_propsal.php')
 ?>
 
@@ -16,6 +17,9 @@ require_once('./back/php/director/add_propsal.php')
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
         <!-- message shower with  notyf-->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+        <!-- Font Awesome CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
         <!-- user imprted css -->
         <link rel="stylesheet" href="./css/style1.css">
         <link rel="stylesheet" href="./css/userTable.css">
@@ -37,6 +41,7 @@ require_once('./back/php/director/add_propsal.php')
                         <div class="sidebar-header d-flex align-items-center">
                             <img src="https://via.placeholder.com/50" alt="Company Logo" class="rounded-circle me-2">
                             <span class="fs-3 text">SSTA</span>
+                            <h6 class=" d-flex text"><?php echo "c:0".  $_SESSION['user']['code']?></h6>
                         </div>
                         <div class="sidebar-body">
                             <ul class="nav flex-column">
@@ -69,9 +74,14 @@ require_once('./back/php/director/add_propsal.php')
                                 </li>
                             </ul>
                         </div>
-                        <div class="sidebar-footer d-flex align-items-center">
-                            <img src="https://via.placeholder.com/40" alt="User Avatar" class="rounded-circle me-2">
-                            <span class="text">John Doe</span>
+                        <div class="sidebar-footer d-flex align-items-center gap-lg-5">
+
+                            <span
+                                class="text"><?php echo $_SESSION['user']['fname'] ." " . $_SESSION['user']['lname']?></span>
+
+                            <i data-toggle="modal" data-target="#loginModal" style="cursor: pointer;"
+                                class="fa-solid fa-gear cursor-pointer"></i>
+
                         </div>
                     </div>
                     <div class="toggle-button" id="toggleButton">
@@ -125,7 +135,7 @@ require_once('./back/php/director/add_propsal.php')
 
                                 <!-- Submit button outside the table container -->
                                 <div id="buttonContainer" style="visibility :hidden;">
-                                    <button type="submit" class="green">update</button>
+                                    <button type="submit" name="propsal" value="" class="green">update</button>
                                 </div>
                             </form>
                         </div>
@@ -189,7 +199,40 @@ require_once('./back/php/director/add_propsal.php')
             </div>
         </div>
 
+
+        <div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="loginModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="loginModalLabel">update</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="loginForm" action="" method="post">
+                            <div class="form-group">
+                                <rname for="username">Username:</label>
+                                    <input type="text" id="username" name="username" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password:</label>
+                                <input type="password" name="password" class="form-control" required>
+                            </div>
+                            <button type="submit" name="update" class="btn btn-primary btn-block">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 
         <!-- sicript with notyf -->
         <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>

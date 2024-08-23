@@ -59,6 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                 $message = submitForFinanceReview($_POST);
                 return;
             }
+
+                        if(isset($_POST['update'])){
+                return;
+            }
             
             
 
@@ -69,13 +73,24 @@ if(isset($_POST['submit'])){
      }
 
 }
+
+if(!isset($_POST['propsal']) ){
+            return;
+}
+
         // Convert data to JSON
         $tableData = checktable();
+        
         $code = $_POST['code'];
         $jsonData = $tableData ? json_encode($tableData) : json_encode([]);
 
         $time = date('Y-m-d H:i:s');
         $code = (!$code) ? $_SESSION['user']['id'] : $code;
+
+        if($_SESSION['buget']['data']){
+            $message = array("status" => "error", "message" => "Unable to update Proposal successfully", 'navigateToSlide' => "uploadProposal");
+        }
+
         if (checkProposalExists($connect,$code)) {
             // Update existing proposal
             $updateResult = updateProposal($connect, $code, $jsonData, $time);
@@ -141,7 +156,7 @@ function make_ibx() {
     }
     if($_POST['code'] == "total"){
 
-    if(date('Y-m-d', strtotime( $_SESSION['buget']['time'])) < date("Y-m-d")){
+    if(date('Y-m-d', strtotime( $_SESSION['buget']['time'])) < date("Y-m-d") or !$_SESSION['buget']['data'] ){
 
     
         $intal  = intval(mb_split(":",$_POST['total'])[1]);
@@ -150,6 +165,7 @@ function make_ibx() {
         $data = checktable();
         $data = ibx($data);
        $message =  update_ibx($data);
+          store_buget_limit_now();
         }else{
             $message = array("status" => "error", "message" => "limited buget", 'navigateToSlide' => "uploadProposal");
         }
@@ -170,7 +186,7 @@ function ibx($data) {
 
         foreach ($row as $item) {
             // Assuming $item is a single value, we'll double it to create a "total: change" pair
-            $pairedRow[] = "{$item}: {$item}";
+            $pairedRow[] = "{$item} : {$item}";
         }
 
         $transformedBody[] = $pairedRow;
@@ -181,5 +197,11 @@ function ibx($data) {
     return $data;
 }
 
+function store_buget_limit_now(){
+    $connect = connect();
+    $resualt = $connect->query("SELECT * FROM records where status = 1");
+    $resualt = $resualt->fetch_assoc();
+    $_SESSION['buget'] = $resualt;
+}
 
 ?>
