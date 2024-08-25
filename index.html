@@ -1,0 +1,399 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="responsive.css" />
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="bootstrap.js"></script>
+  </head>
+  <body>
+    <div>
+      <div class="nav-wrapper fixed-top">
+        <div class="container">
+          <nav class="navbar nav1 navbar-toggleable-sm navbar-expand-md">
+            <a class="navbar-brand mx-auto mb-3 icon" href="#"
+              ><img src="imagee/tap.jpg" /> SSTA</a
+            >
+
+            <div class="navbar-collapse collapse">
+              <ul class="navbar-nav w-50">
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#contact"
+                    >Contact</a
+                  >
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#about">About</a>
+                </li>
+              </ul>
+            </div>
+            <button
+              class="navbar-toggler navbar-toggler-right"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+            >
+              ☰
+            </button>
+            <nav class="nav2">
+              <ul>
+                <button class="log-bu">
+                  <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="/search/"
+                      >Log in
+                    </a>
+                  </li>
+                </button>
+              </ul>
+            </nav>
+          </nav>
+        </div>
+      </div>
+
+      <div id="home" class="Titel">
+        <div class="container">
+          <div class="row">
+            <span class="typed">
+              <h1 class="Text-center">
+                Sidama Scince <br />
+                and technology agency
+              </h1>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about" class="row about-us-container">
+      <div class="img-container">
+        <img class="image" src="imagee/money.jpg" alt="room" />
+      </div>
+      <div class="texts-container">
+        <h1 class="title">About Us</h1>
+        <p class="text">
+          The Budget Management System for the Sidama Science and Information
+          Technology Agency! Our web application is designed to streamline the
+          budgeting process, ensuring efficient financial management and optimal
+          resource allocation. We offer a user-friendly platform that enhances
+          transparency and accountability in budget planning, monitoring, and
+          reporting. With features like real-time expenditure tracking and
+          detailed forecasting, our system supports informed financial decisions
+          and strategic planning.
+        </p>
+      </div>
+    </div>
+    <div id="contact" class="contact-us-container">
+      <span class="brand-name">SST.</span>
+      <div class="contact-content">
+        <div class="contact-info">
+          <h1>Let's Talk</h1>
+          <div class="info-item">Hawassa, Ethiopia, Sidama</div>
+          <div class="info-item">+251-945-68-7290</div>
+          <div class="info-item">sstagency@gmail.com</div>
+        </div>
+        <form id="contact-form" class="contact-form">
+          <input
+            type="text"
+            placeholder="Full Name"
+            required
+            class="input-field"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            class="input-field"
+          />
+          <textarea
+            placeholder="Message"
+            cols="30"
+            rows="6"
+            required
+            class="textarea-field"
+          ></textarea>
+          <div class="button-container">
+            <button type="submit" class="submit-button">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/1style.css" />
+    <link rel="stylesheet" href="css/responsive.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet" />
+    <script src="bootstrap.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('.navbar-nav>li>a').on('click', function () {
+          $('.navbar-collapse').collapse('hide');
+        });
+      });
+    </script>
+  </head>
+
+  <body>
+    <div>
+      <div class="nav-wrapper fixed-top">
+        <div class="container">
+          <nav class="navbar nav1 navbar-toggleable-sm navbar-expand-md">
+            <a class="navbar-brand mx-auto mb-3 icon" href="#">
+              <img src="imagee/tap.jpg" /> SSTA
+            </a>
+
+            <div class="navbar-collapse collapse">
+              <ul class="navbar-nav w-50">
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+                </li>
+              </ul>
+            </div>
+
+            <nav class="nav2">
+              <ul>
+                <button class="log-bu">
+                  <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="./login.php">Log in</a>
+                  </li>
+                </button>
+                <button class="navbar-toggler navbar-toggler-right " type="button" data-toggle="collapse"
+                  data-target=".navbar-collapse">
+                  ☰
+                </button>
+              </ul>
+            </nav>
+          </nav>
+        </div>
+      </div>
+
+      <div id="home" class="Titel">
+        <div class="container">
+          <div class="row">
+            <span class="typed">
+              <h1 class="Text-center">
+                Sidama Science <br />
+                and Technology Agency
+              </h1>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about" class=" about-us-container">
+      <div class="img-container">
+        <img class="image" src="imagee/money.jpg" alt="room" />
+      </div>
+      <div class="texts-container">
+        <h1 class="title">About Us</h1>
+        <p class="text">
+          The Budget Management System for the Sidama Science and Information
+          Technology Agency! Our web application is designed to streamline the
+          budgeting process, ensuring efficient financial management and optimal
+          resource allocation. We offer a user-friendly platform that enhances
+          transparency and accountability in budget planning, monitoring, and
+          reporting. With features like real-time expenditure tracking and
+          detailed forecasting, our system supports informed financial decisions
+          and strategic planning.
+        </p>
+      </div>
+    </div>
+
+    <div id="contact" class="contact-us-container">
+      <span class="brand-name">SST.</span>
+      <div class="contact-content">
+        <div class="contact-info">
+          <h1>Let's Talk</h1>
+          <div class="info-item">Hawassa, Ethiopia, Sidama</div>
+          <div class="info-item">+251-945-68-7290</div>
+          <div class="info-item">sstagency@gmail.com</div>
+        </div>
+        <form id="contact-form" class="contact-form">
+          <input type="text" placeholder="Full Name" required class="input-field" />
+          <input type="email" placeholder="Email" required class="input-field" />
+          <textarea placeholder="Message" cols="30" rows="6" required class="textarea-field"></textarea>
+          <div class="button-container">
+            <button type="submit" class="submit-button">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+
+</html>
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Homepage</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="responsive.css" />
+  
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,100..900;1,100..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('.navbar-nav>li>a').on('click', function () {
+          $('.navbar-collapse').collapse('hide');
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <div>
+      <div class="nav-wrapper fixed-top">
+        <div class="container">
+          <nav class="navbar nav1 navbar-toggleable-sm navbar-expand-md">
+            <a class="navbar-brand mx-auto mb-3 icon" href="#">
+              <img src="imagee/tap.jpg" /> SSTA
+            </a>
+
+            <button
+              class="navbar-toggler navbar-toggler-right"
+              type="button"
+              data-toggle="collapse"
+              data-target=".navbar-collapse"
+            >
+              ☰
+            </button>
+            <div class="navbar-collapse collapse">
+              <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#home">Home</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#about">About</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="#contact">Contact</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link js-scroll-trigger" href="/search/">Log in</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+        </div>
+      </div>
+
+      <div id="home" class="Titel">
+        <div class="container">
+          <div class="row">
+            <span class="typed">
+              <h1 class="Text-center">
+                Sidama Science <br />
+                and Technology Agency
+              </h1>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="about" class=" about-us-container">
+      <div class="img-container">
+        <img class="image" src="imagee/money.jpg" alt="room" />
+      </div>
+      <div class="texts-container">
+        <h1 class="title">About Us</h1>
+        <p class="text">
+          The Budget Management System for the Sidama Science and Information
+          Technology Agency! Our web application is designed to streamline the
+          budgeting process, ensuring efficient financial management and optimal
+          resource allocation. We offer a user-friendly platform that enhances
+          transparency and accountability in budget planning, monitoring, and
+          reporting. With features like real-time expenditure tracking and
+          detailed forecasting, our system supports informed financial decisions
+          and strategic planning.
+        </p>
+      </div>
+    </div>
+    
+    <div id="contact" class="contact-us-container">
+      <span class="brand-name">SST.</span>
+      <div class="contact-content">
+        <div class="contact-info">
+          <h1>Let's Talk</h1>
+          <div class="info-item">Hawassa, Ethiopia, Sidama</div>
+          <div class="info-item">+251-945-68-7290</div>
+          <div class="info-item">sstagency@gmail.com</div>
+        </div>
+        <form id="contact-form" class="contact-form">
+          <input
+            type="text"
+            placeholder="Full Name"
+            required
+            class="input-field"
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            required
+            class="input-field"
+          />
+          <textarea
+            placeholder="Message"
+            cols="30"
+            rows="6"
+            required
+            class="textarea-field"
+          ></textarea>
+          <div class="button-container">
+            <button type="submit" class="submit-button">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html> -->

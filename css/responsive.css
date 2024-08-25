@@ -1,0 +1,7 @@
+@media (max-width: 800px) {
+  .contact-container,
+  .about-us-container,
+  .contact-content {
+    flex-wrap: wrap;
+  }
+}
