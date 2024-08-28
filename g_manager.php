@@ -2,7 +2,7 @@
 $url = "g_manager";
 require_once ('./back/php/check_login_status.php'); 
 include_once('./back/php/g.manager/update_users.php');
-include_once('./back/php/g.manager/admin_create_account.php');
+include_once('./back/php/aprrove_system.php');
 
 
 ?>
@@ -78,6 +78,11 @@ include_once('./back/php/g.manager/admin_create_account.php');
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a class="nav-link" href="#" data-bs-target="#messages">
+                                        <i class="bi bi-envelope me-2"></i><span class="text">approval</span>
+                                    </a>
+                                </li>
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#Manage_account">
                                         <i class="bi bi-person-circle me-2"></i><span class="text">Manage
                                             Account</span>
@@ -87,12 +92,12 @@ include_once('./back/php/g.manager/admin_create_account.php');
                                     <a class="nav-link" href="#" data-bs-target="#User_list">
                                         <i class="bi bi-envelope me-2"></i><span class="text">User list</span>
                                     </a>
-                                </li>
-                                <li class="nav-item">
+                                </li> -->
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#messages">
                                         <i class="bi bi-envelope me-2"></i><span class="text">Messages</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" id="logoutLink"
                                         onclick="document.getElementById('logoutForm').submit();">
@@ -139,8 +144,13 @@ include_once('./back/php/g.manager/admin_create_account.php');
                                             placeholder="Enter your budget limit" required>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="budgetDuration" class="form-label">Budget Duration</label>
+                                        <label for="budgetDuration" class="form-label">Budget Duration Start</label>
                                         <input type="date" class="form-control" id="budgetDuration"
+                                            name="budgetDurationstart" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="budgetDuration" class="form-label">Budget Duration End</label>
+                                        <input type="date" class="form-control" id="budgetDurationend"
                                             name="budgetDuration" required>
                                     </div>
                                     <button type="submit" name="set_buget" value="set_buget"
@@ -152,12 +162,8 @@ include_once('./back/php/g.manager/admin_create_account.php');
 
                     <div id="table-container"></div>
 
-                    <div class="content" id="messages" style="display: none;">
-                        <h2>Messages</h2>
-                        <p>This is the Messages content.</p>
-                    </div>
                     <div class="content" id="report" style="display: none;">
-                        <h2> view Report</h2>
+                        <h2>report</h2>
 
                         <?php
                         $connect = connect();
@@ -175,7 +181,8 @@ include_once('./back/php/g.manager/admin_create_account.php');
                                 <thead>
                                     <tr style="background-color:black;">
                                         <th>Code</th>
-                                        <th>time</th>
+                                        <th>buget start time</th>
+                                        <th>buget end time</th>
                                         <th>buget limit</th>
                                         <th>Action</th>
                                     </tr>
@@ -185,6 +192,7 @@ include_once('./back/php/g.manager/admin_create_account.php');
                                     <tr>
                                         <td><?php echo htmlspecialchars($record['code']); ?></td>
                                         <td><?php echo htmlspecialchars($record['time']); ?></td>
+                                        <td><?php echo htmlspecialchars($record['end_time']); ?></td>
                                         <td><?php echo htmlspecialchars($record['buget_limit']); ?></td>
                                         <td>
                                             <form action="./back/php/report.php" method="post">
@@ -198,97 +206,12 @@ include_once('./back/php/g.manager/admin_create_account.php');
                                 </tbody>
                             </table>
                         </div>
-
-
                     </div>
-                    <div class="content" id="User_list" style="display: none;">
-                        <h2>user list</h2>
-                        <div class="container">
-                            <div class="header">
-                                <h1>User List</h1>
-                            </div>
-                            <table>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>role</th>
-                                        <th>Firstname</th>
-                                        <th>Lastname</th>
-                                        <th>Username</th>
-                                        <th>Phone number</th>
-                                        <th>code</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- to get the the vlues of the regesterd users -->
-                                    <?php include('./back/php/g.manager/admin_get_account.php')?>
-
-
-                                </tbody>
-                            </table>
-                        </div>
+                    <div class="content" id="messages" style="display: none;">
+                        <h2>approval request list</h2>
+                        <?php include_once("./back/php/display_approval.php")?>
                     </div>
-                    <div class="content" id="Manage_account" style="display: none;">
-                        <h2>Manage Account</h2>
 
-                        <div class="reg">
-                            <div class="container">
-                                <h2>Register</h2>
-                                <form action="./g_manager.php" method="POST" id="reg">
-                                    <div class="form-group">
-                                        <label for="role">Role:</label>
-                                        <select id="role" name="role" required>
-                                            <option value="">Select Role</option>
-                                            <option value="finance">Finance</option>
-                                            <option value="b_manager">B. Manager</option>
-                                            <option value="director">Director</option>
-                                            <option value="g_manager">g_manager</option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="first_name">First Name:</label>
-                                        <input type="text" id="first_name" name="first_name" pattern="[a-zA-Z]+"
-                                            title="only insert characters" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="code">Code:</label>
-                                        <input type="text" id="code" name="code" pattern="[0-9]+"
-                                            title="code must be in numbers" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="last_name">Last Name:</label>
-                                        <input type="text" id="last_name" name="last_name" pattern="[a-zA-Z]+"
-                                            title="only insert characters" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="phone_number">Phone Number:</label>
-                                        <input type="tel" id="phone_number" name="phone_number" pattern=".{10,13}"
-                                            title="phone_number at lest contain 10 digits" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="username">Username:</label>
-                                        <input type="text" id="username" name="username" pattern="[a-zA-Z]+"
-                                            title="only insert characters" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password">Password:</label>
-                                        <input type="password" id="password" name="password" pattern=".{8,}"
-                                            title="password must be greater than 8 characters" required>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="confirm_password">Confirm Password:</label>
-                                        <input type="password" name="confirm_password" id="confirm_password"
-                                            pattern=".{8,}" title="password must be greater than 8 characters" required>
-                                    </div>
-                                    <span id="password_message" class="alert alert-block"></span>
-                                    <div class="form-group">
-                                        <input type="submit" name="submit" value="Register">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
                 </main>
             </div>
         </div>

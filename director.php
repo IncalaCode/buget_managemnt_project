@@ -62,11 +62,11 @@ require_once('./back/php/director/add_propsal.php')
                                 </li>
 
 
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#messages">
                                         <i class="bi bi-envelope me-2"></i><span class="text">Messages</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" id="logoutLink"
                                         onclick="document.getElementById('logoutForm').submit();">

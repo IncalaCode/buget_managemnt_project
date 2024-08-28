@@ -3,7 +3,7 @@
 $url = "finance" ;
 require_once ('./back/php/check_login_status.php');
 include_once('./back/php/g.manager/update_users.php');
-require_once('./back/php/aprrove_system.php');
+
 ?>
 
 <!DOCTYPE html>
@@ -50,11 +50,11 @@ require_once('./back/php/aprrove_system.php');
                                     </a>
                                 </li>
 
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link" href="#" data-bs-target="#messages">
                                         <i class="bi bi-envelope me-2"></i><span class="text">approval</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li class="nav-item">
                                     <a class="nav-link" href="#" id="logoutLink"
                                         onclick="document.getElementById('logoutForm').submit();">
@@ -90,10 +90,7 @@ require_once('./back/php/aprrove_system.php');
                         <div id="table-container"></div>
 
                     </div>
-                    <div class="content" id="messages" style="display: none;">
-                        <h2>approval request list</h2>
-                        <?php include_once("./back/php/display_approval.php")?>
-                    </div>
+
                 </main>
             </div>
         </div>

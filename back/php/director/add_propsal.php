@@ -77,6 +77,10 @@ if(isset($_POST['submit'])){
 if(!isset($_POST['propsal']) ){
             return;
 }
+if(isset($_SESSION['buget']['data']) ){
+    $message = array("status" => "error", "message" => " Proposal was set , Unable to update ", 'navigateToSlide' => "uploadProposal");
+    return;
+}
 
         // Convert data to JSON
         $tableData = checktable();
@@ -87,7 +91,7 @@ if(!isset($_POST['propsal']) ){
         $time = date('Y-m-d H:i:s');
         $code = (!$code) ? $_SESSION['user']['id'] : $code;
 
-        if($_SESSION['buget']['data']){
+        if(isset($_SESSION['buget']['data'])){
             $message = array("status" => "error", "message" => "Unable to update Proposal successfully", 'navigateToSlide' => "uploadProposal");
         }
 
@@ -119,9 +123,7 @@ if(!isset($_POST['propsal']) ){
         if ($stmt) {
             $stmt->close();
         }
-        if ($connect) {
-            $connect->close();
-        }
+
     }
 }
 
