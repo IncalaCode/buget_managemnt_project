@@ -74,7 +74,7 @@ if(isset($_POST['submit'])){
 
 }
 
-if(!isset($_POST['propsal']) ){
+if(!isset($_POST['propsal']) or isset($_POST['set_buget'])  ){
             return;
 }
 if(isset($_SESSION['buget']['data']) ){
