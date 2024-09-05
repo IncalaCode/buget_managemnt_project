@@ -3,6 +3,7 @@ $url = "g_manager";
 require_once ('./back/php/check_login_status.php'); 
 include_once('./back/php/g.manager/update_users.php');
 include_once('./back/php/aprrove_system.php');
+include_once('./back/php/g.manager/set_buget.php')
 
 
 ?>
@@ -34,7 +35,7 @@ include_once('./back/php/aprrove_system.php');
         function set_table() {
             if (isset($_SESSION['buget']) && !empty($_SESSION['buget'])) {
                 $buget = $_SESSION['buget'];
-                    $budgetEndDate = new DateTime($buget['time']);
+                    $budgetEndDate = new DateTime($buget['end_time']);
                     $now = new DateTime();
                     
                     if ($budgetEndDate >= $now) {

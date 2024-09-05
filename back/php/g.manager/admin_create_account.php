@@ -13,12 +13,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     
     $connect = connect();
     
-    if(isset($_POST['set_buget'])){
-     $message = setbuget();
-     $buget = get_buget();
-     store_buget_now();
+    
+    if(isset($_POST['propsal'])){
         return;
     }
+
     if(isset($_POST['update'])){
            return;
        }
@@ -64,10 +63,5 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
 
 }
-function store_buget_now(){
-    $connect = connect();
-    $resualt = $connect->query("SELECT * FROM records where status = 1");
-    $resualt = $resualt->fetch_assoc();
-    $_SESSION['buget'] = $resualt;
-}
+
 ?>

@@ -4,9 +4,9 @@ function  setbuget(){
     
     $connect = connect();
     $ststus = 1;
-    $stmt = $connect->prepare("INSERT INTO records (id,code, time,end_time,status,buget_limit) VALUES (?, ?,?,?,?)");
+    $stmt = $connect->prepare("INSERT INTO records (id,code, time,end_time,status,buget_limit) VALUES (?,?, ?,?,?,?)");
 
-    $stmt->bind_param("iissii",$_SESSION['user']['id'],$_SESSION['user']['code'] ,$_POST['budgetDurationstart'],$_POST['budgetDurationend'], $ststus,$_POST['buget_limit']);
+    $stmt->bind_param("iissii",$_SESSION['user']['id'],$_SESSION['user']['code'] ,$_POST['budgetDurationstart'],$_POST['budgetDuration'], $ststus,$_POST['buget_limit']);
   
     if($stmt->execute()){
         $message = array("status" => "success", "message" => "buget has been set.",'navigateToSlide' => "viewStatus");
@@ -126,7 +126,7 @@ function submitForFinanceReview($budget_request) {
 
     if(!isset($_SESSION['buget']['data']) ){
         return array("status" => "error", "message" => " this year was not to ibx system , set it up try again ", 'navigateToSlide' => "viewStatus");
-      
+    
     }
 
     // Fetch the current budget data from the proposal table

@@ -88,6 +88,8 @@ include_once('./back/php/g.manager/update_users.php');
                     <div class="content" id="viewStatus">
                         <h2>View Status</h2>
                         <div id="table-container"></div>
+                        <hr>
+                        <?php include_once("./back/php/show_approved_finces.php")?>
 
                     </div>
 
