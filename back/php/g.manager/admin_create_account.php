@@ -21,6 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if(isset($_POST['update'])){
            return;
        }
+       if(isset($_POST['submit'])){
+        return;
+    }
 
     $role = filter_input_data($_POST['role']);
     $first_name = filter_input_data($_POST['first_name']);
