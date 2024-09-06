@@ -158,6 +158,10 @@ function make_ibx() {
     }
     if($_POST['code'] == "total"){
 
+        if(!isset($_SESSION['buget'])){
+            return array("status" => "error", "message" => " this year buget was unset", 'navigateToSlide' => "uploadProposal");
+        }
+
     if(date('Y-m-d', strtotime( $_SESSION['buget']['time'])) < date("Y-m-d") or !$_SESSION['buget']['data'] ){
 
     
